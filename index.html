@@ -288,6 +288,7 @@ body {
   border-radius: 20rem;
   display: flex;
   min-height: 314rem;
+  overflow: hidden;              /* clip the video to the card's rounded corners */
 }
 .workcard {
   flex: 1 0 0;
@@ -301,6 +302,10 @@ body {
 .workcard.first { padding-left: 60rem; padding-right: 20rem; }
 .workcard h3 { font-weight: 500; font-size: 32rem; letter-spacing: 0.32rem; }
 .workcard p  { font-weight: 400; font-size: 24rem; letter-spacing: 0.24rem; }
+
+/* Right side of the project card: a looping, muted demo video */
+.workvideo { flex: 1 0 0; min-width: 0; align-self: stretch; }
+.workvideo video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* Keyboard focus */
 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -391,10 +396,9 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
         <h3>An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
         <p>Medtronic Labs X Parallel HQ</p>
       </article>
-      <article class="workcard">
-        <h3>An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
-        <p>Medtronic Labs X Parallel HQ</p>
-      </article>
+      <div class="workvideo">
+        <video src="assets/medtronic-demo.mp4" autoplay loop muted playsinline preload="auto" aria-label="Demo of the AI workflow builder"></video>
+      </div>
     </div>
   </div>
 
