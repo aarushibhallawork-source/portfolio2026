@@ -4,6 +4,7 @@
 
 # Claude Code internal — private, not part of the website
 .claude/
+HANDOFF.md
 
 # Unused build leftovers & source originals (kept locally, not deployed)
 assets/gsap.min.js
