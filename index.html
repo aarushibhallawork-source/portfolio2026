@@ -289,7 +289,13 @@ body {
   display: flex;
   min-height: 314rem;
   overflow: hidden;              /* clip the video to the card's rounded corners */
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color .2s ease;
 }
+.workcards:hover { border-color: #e6b8dd; }
+.workcards:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .workcard {
   flex: 1 0 0;
   min-width: 0;
@@ -391,7 +397,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     </div>
     <div class="footerline"></div>
 
-    <div class="workcards" id="work">
+    <a class="workcards" id="work" href="https://aarushibhalla.framer.website/medtronic-labs" target="_blank" rel="noopener noreferrer" aria-label="Open the Medtronic Labs X Parallel HQ case study">
       <article class="workcard first">
         <h3>An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
         <p>Medtronic Labs X Parallel HQ</p>
@@ -399,7 +405,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
       <div class="workvideo">
         <video src="assets/medtronic-demo.mp4" autoplay loop muted playsinline preload="auto" aria-label="Demo of the AI workflow builder"></video>
       </div>
-    </div>
+    </a>
   </div>
 
 </div>
