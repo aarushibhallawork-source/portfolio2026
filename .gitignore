@@ -1,0 +1,23 @@
+# macOS junk
+.DS_Store
+**/.DS_Store
+
+# Claude Code internal — private, not part of the website
+.claude/
+
+# Unused build leftovers & source originals (kept locally, not deployed)
+assets/gsap.min.js
+assets/ScrollTrigger.min.js
+assets/*-raw.png
+assets/hero-bg.png
+assets/character.png
+assets/platform-2.png
+assets/platform-3.png
+assets/plus.svg
+assets/sparkle.svg
+
+# Older standalone experiments (kept locally, not part of the portfolio)
+lancrlot.html
+platformer.html
+platformer copy.html
+v1.html

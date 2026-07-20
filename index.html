@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aarushi Bhalla — Product Designer</title>
+
+<!-- Clash Display (Fontshare) — the display face used across the design -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&display=swap" rel="stylesheet">
+
+<style>
+/* =====================================================================
+   TOKENS  (values taken directly from the Figma file)
+===================================================================== */
+:root {
+  --bg: #252525;
+  --accent: #ce93c5;             /* mauve borders / lines */
+  --accent-tint: rgba(206,147,197,0.1);
+  --ink: #ffffff;
+  --font: "Clash Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Scaling: 1rem == (viewport-fit factor) px, set by JS.
+     Every dimension below is written in rem using the Figma pixel value,
+     so the whole page scales proportionally while borders stay crisp. */
+  --k: 1;
+}
+:root { font-size: calc(var(--k) * 1px); }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { background: var(--bg); }
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =====================================================================
+   STAGE — the full 1812px design footprint, centered
+===================================================================== */
+.stage {
+  width: 1812rem;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding-bottom: 260rem;
+}
+
+/* Content column (1688.383px), holds header → intro → game */
+.content {
+  width: 1688.383rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ---------------------------------------------------------------------
+   HEADER
+--------------------------------------------------------------------- */
+.header {
+  width: 100%;
+  border-bottom: 1px solid var(--accent);
+  border-left: 1px solid var(--accent);
+  border-right: 1px solid var(--accent);
+  padding: 53rem 188rem 139rem;
+}
+.userinfo {
+  width: 1312.545rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 104rem;
+}
+
+/* Top bar */
+.topbar {
+  width: 100%;
+  background: var(--accent-tint);
+  border-radius: 12rem;
+  padding: 12rem 40rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40rem;
+}
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12rem;
+  padding: 0 12rem;
+}
+.profile .avatar {
+  width: 40.755rem;
+  height: 40.755rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.profile .who {
+  display: flex;
+  align-items: center;
+  gap: 6rem;
+  font-weight: 500;
+  font-size: 20rem;
+  letter-spacing: 0.2rem;
+  white-space: nowrap;
+}
+.profile .dot { width: 3.791rem; height: 3.791rem; }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 36rem;
+  font-weight: 500;
+  font-size: 20rem;
+  letter-spacing: 0.2rem;
+}
+.nav a { color: var(--ink); text-decoration: none; white-space: nowrap; }
+.nav a:hover { color: var(--accent); }
+
+.chat {
+  display: flex;
+  align-items: center;
+  gap: 8rem;
+  padding: 10rem 16rem;
+  border-radius: 7rem;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.chat span { font-weight: 600; font-size: 20rem; letter-spacing: 0.2rem; }
+.chat .arrow { width: 16rem; height: 16rem; transform: rotate(-90deg); }
+.chat:hover { background: var(--accent-tint); }
+
+/* Headline */
+.headline {
+  width: 1018.133rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 72rem;
+  line-height: 1.2;
+  letter-spacing: 0.72rem;
+}
+
+/* ---------------------------------------------------------------------
+   INTRO
+--------------------------------------------------------------------- */
+.intro {
+  width: 759.655rem;
+  border: 1px solid var(--accent);
+  margin-top: -1px;
+  margin-bottom: -1px;
+  padding: 58rem 43rem 56rem 69rem;
+  display: flex;
+  align-items: center;
+}
+.intro p {
+  font-weight: 500;
+  font-size: 24rem;
+  line-height: 1.2;
+  letter-spacing: 0.24rem;
+}
+
+/* ---------------------------------------------------------------------
+   GAME FRAME  (the "place where the game happens")
+--------------------------------------------------------------------- */
+.gameframe {
+  position: relative;
+  width: 100%;
+  height: 884.098rem;
+  margin-top: -1px;
+  border: 1px solid var(--accent);
+  border-radius: 0 0 20rem 20rem;
+  overflow: hidden;
+}
+.gameframe canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+/* Control-hint widget (top-left of the game frame) */
+.controls {
+  position: absolute;
+  left: 21.36rem;
+  top: 24.9rem;
+  z-index: 2;
+  width: 366rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rem;
+  padding: 20rem 32rem;
+  background: rgba(255,255,255,0.2);
+  pointer-events: none;
+}
+.controls .keys { display: flex; align-items: center; gap: 6.69rem; }
+.controls .key {
+  background: #fff;
+  border: 1px solid rgba(233,171,207,0.4);
+  border-radius: 1.672rem;
+  width: 53.689rem;
+  height: 53.689rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.controls .key-space { width: 201.244rem; height: 53.516rem; }
+.controls .key img { width: 35.12rem; height: 35.678rem; display: block; }
+.controls p {
+  font-weight: 500;
+  font-size: 24rem;
+  line-height: 1.2;
+  letter-spacing: 0.24rem;
+  text-align: center;
+  color: #fff;
+}
+
+/* Aura card (top-right) — shows the collected item, then auto-dismisses */
+.aura {
+  position: absolute;
+  right: 26.31rem;
+  top: 24.31rem;
+  z-index: 3;
+  width: 366rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rem;
+  padding: 20rem 32rem;
+  background: rgba(124,70,127,0.4);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-10rem);
+  transition: opacity .35s ease, transform .35s ease;
+}
+.aura.show { opacity: 1; transform: translateY(0); }
+.aura img {
+  height: 140rem;
+  width: auto;
+  image-rendering: pixelated;   /* glow (drop-shadow filter) is set per item in JS */
+}
+.aura .aura-text { display: flex; flex-direction: column; gap: 6rem; width: 100%; text-align: center; }
+.aura .aura-name { font-weight: 500; font-size: 24rem; line-height: 1.2; letter-spacing: 0.24rem; color: #fff; }
+.aura .aura-pts  { font-weight: 400; font-size: 24rem; line-height: 1.2; letter-spacing: 0.24rem; color: #fff; }
+
+/* ---------------------------------------------------------------------
+   FOOTER  (recent-work tab + divider line + work cards)
+--------------------------------------------------------------------- */
+.footer { margin-top: 109rem; }
+
+.worktabrow {
+  width: 1688.383rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 18rem;
+}
+.worktab {
+  border: 1px solid var(--accent);
+  border-bottom: none;
+  border-radius: 20rem 20rem 0 0;
+  padding: 20rem;
+  font-weight: 500;
+  font-size: 24rem;
+  letter-spacing: 0.24rem;
+  white-space: nowrap;
+}
+.worktab-flag { width: 34.923rem; height: 50rem; display: block; }
+
+.footerline {
+  width: 1812rem;
+  max-width: 100%;
+  margin: 0 auto;
+  border-top: 1px solid var(--accent);
+}
+
+.workcards {
+  width: 1182rem;
+  margin: 110rem auto 0;
+  border: 1px solid var(--accent);
+  border-radius: 20rem;
+  display: flex;
+  min-height: 314rem;
+}
+.workcard {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24rem;
+  padding: 20rem;
+}
+.workcard.first { padding-left: 60rem; padding-right: 20rem; }
+.workcard h3 { font-weight: 500; font-size: 32rem; letter-spacing: 0.32rem; }
+.workcard p  { font-weight: 400; font-size: 24rem; letter-spacing: 0.24rem; }
+
+/* Keyboard focus */
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto; }
+  .aura { transition: none; }   /* card toggles without motion; item collected instantly */
+}
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="content">
+
+    <!-- ================= HEADER ================= -->
+    <header class="header">
+      <div class="userinfo">
+
+        <div class="topbar">
+          <div class="profile">
+            <img class="avatar" src="assets/avatar.png" alt="Aarushi Bhalla">
+            <div class="who">
+              <span>Aarushi Bhalla</span>
+              <img class="dot" src="assets/dot.svg" alt="">
+              <span>Product Designer</span>
+            </div>
+          </div>
+
+          <nav class="nav">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#resume">Resume</a>
+          </nav>
+
+          <a class="chat" href="#contact">
+            <span>Let’s chat</span>
+            <img class="arrow" src="assets/arrow.svg" alt="">
+          </a>
+        </div>
+
+        <h1 class="headline">Hi, I’m Aarushi.<br>I turn AI into real products.</h1>
+      </div>
+    </header>
+
+    <!-- ================= INTRO ================= -->
+    <section class="intro">
+      <p>Turning ideas into shipped products with 1.5 years of experience building products, growth experiments, and MVPs for ambitious teams.</p>
+    </section>
+
+    <!-- ================= GAME FRAME ================= -->
+    <section class="gameframe" id="gameframe">
+      <canvas id="game" aria-label="Interactive pixel scene — use the arrow keys to move Aarushi and touch a mystery box to collect its item"></canvas>
+
+      <!-- Control-hint widget -->
+      <div class="controls" aria-hidden="true">
+        <div class="keys">
+          <span class="key"><img src="assets/arrow-left.svg" alt=""></span>
+          <span class="key key-space"></span>
+          <span class="key"><img src="assets/arrow-right.svg" alt=""></span>
+        </div>
+        <p>control using the arrow keys and the space bar</p>
+      </div>
+
+      <!-- Aura card: shows the collected item, then auto-dismisses -->
+      <div class="aura" id="aura" aria-hidden="true">
+        <img src="assets/matcha.png" alt="">
+        <div class="aura-text">
+          <p class="aura-name">Strawberry Matcha</p>
+          <p class="aura-pts">+ 100 aura points</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <div class="footer">
+    <div class="worktabrow">
+      <div class="worktab">Check out some of my recent work</div>
+      <img class="worktab-flag" src="assets/flag.svg" alt="">
+    </div>
+    <div class="footerline"></div>
+
+    <div class="workcards" id="work">
+      <article class="workcard first">
+        <h3>An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
+        <p>Medtronic Labs X Parallel HQ</p>
+      </article>
+      <article class="workcard">
+        <h3>An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
+        <p>Medtronic Labs X Parallel HQ</p>
+      </article>
+    </div>
+  </div>
+
+</div>
+
+<script>
+"use strict";
+
+/* =====================================================================
+   RESPONSIVE SCALE
+   1rem == (fit factor) px. The full design is 1812px wide; we scale it
+   down to fit the viewport so proportions match the Figma at any width.
+===================================================================== */
+const DESIGN_W = 1812;
+function setScale() {
+  const avail = document.documentElement.clientWidth;
+  const k = Math.min(1, avail / DESIGN_W);
+  document.documentElement.style.setProperty("--k", k);
+}
+setScale();
+
+/* =====================================================================
+   GAME — real Figma art assets on the valley background.
+   Physics is the same clean AABB engine; art is swapped for sprites.
+===================================================================== */
+const frame  = document.getElementById("gameframe");
+const canvas = document.getElementById("game");
+const ctx    = canvas.getContext("2d");
+
+// ---- assets ----------------------------------------------------------
+const assets = {
+  bg:        "assets/bg-valley.png",
+  plat:      "assets/platform-1.png",   // all three platforms share the sprite
+  char:      "assets/character-new.png",
+  box:       "assets/box.png",          // the "?" mystery box
+  matcha:    "assets/matcha.png",
+  macbook:   "assets/macbook.png",
+  badminton: "assets/badminton.png"
+};
+
+/* ---------------------------------------------------------------------
+   ITEMS — what each box contains. Each item sets its own image, name,
+   points label, and glow colour. Adding/swapping an item is a one-line
+   change: add an entry here and point a box's `item` at its key.
+--------------------------------------------------------------------- */
+const ITEMS = {
+  matcha:    { asset: "matcha",    name: "Strawberry Matcha", points: "+ 100 aura points",   glow: "rgba(213,131,23,0.85)" },
+  macbook:   { asset: "macbook",   name: "My Macbook Pro",    points: "+ 100 work points",   glow: "rgba(178,136,204,0.9)"  },
+  badminton: { asset: "badminton", name: "Badminton Racket", points: "+ 100 health points", glow: "rgba(230,230,235,0.7)"  }
+};
+
+// Draws the "+" badge beside a revealed item — a white rounded plus with a
+// soft lavender glow, matching the design's icon. Canvas-drawn so the glow
+// never clips (unlike rasterising the SVG's filter). `rad` is the half-arm
+// length, so the plus spans 2*rad.
+function drawPlus(cx, cy, rad, alpha) {
+  const thick = rad * 0.42, r = thick / 2;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.shadowColor = "rgba(197,168,228,0.95)";
+  ctx.shadowBlur = rad * 1.6;
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  ctx.roundRect(cx - thick / 2, cy - rad, thick, rad * 2, r);   // vertical bar
+  ctx.roundRect(cx - rad, cy - thick / 2, rad * 2, thick, r);   // horizontal bar
+  ctx.fill();
+  ctx.restore();
+}
+const img = {};
+let loaded = 0;
+const total = Object.keys(assets).length;
+for (const [key, src] of Object.entries(assets)) {
+  const im = new Image();
+  im.onload = () => { if (++loaded === total) onAssetsReady(); };
+  im.onerror = () => { if (++loaded === total) onAssetsReady(); };
+  im.src = src;
+  img[key] = im;
+}
+
+// The new character and box sprites are tightly cropped, so they're drawn
+// whole — no getImageData trimming, which also keeps the page working when
+// opened straight from disk (file://).
+
+/* =====================================================================
+   WORLD — layout expressed as fractions of the frame, so it lines up
+   with the Figma at any size. Figma frame: 1688.383 × 884.098.
+===================================================================== */
+const PLATFORM_LAYOUT = [
+  { fx: 0.16812, fy: 0.70200, fw: 0.17220, fh: 0.05473 }, // left  (lowered so it's comfortably reachable by the jump)
+  { fx: 0.41390, fy: 0.53608, fw: 0.17220, fh: 0.05208 }, // center
+  { fx: 0.63882, fy: 0.69573, fw: 0.17220, fh: 0.05385 }  // right
+];
+// Character start (Figma "base": x 73.7, y 675.75, h 208.345 in the 1688×884 frame)
+const CHAR_START = { fx: 0.04365, fh: 0.2357 };
+
+// Mystery boxes — fixed spots, each tuned to be reachable by the jump physics.
+// `item` keys into ITEMS; every box is Strawberry Matcha for now.
+const BOX_LAYOUT = [
+  { fx: 0.22513, fy: 0.28158, item: "matcha" },    // left box   → Strawberry Matcha
+  { fx: 0.47781, fy: 0.17974, item: "macbook" },   // center box → My Macbook Pro
+  { fx: 0.74236, fy: 0.53212, item: "badminton" }  // right box  → Badmintone Racket
+];
+const BOX_FW = 0.05817, BOX_FH = 0.11206;        // Figma footprint (98.22 × 99.07)
+
+let W = 0, H = 0;           // frame size in device-independent game px
+let platforms = [];
+let boxes = [];             // {x,y,w,h,cx,cy,item,collected}
+let risers = [];            // collected items floating up: {asset,cx,cy,born}
+const player = {
+  x: 0, y: 0, width: 0, height: 0,
+  vx: 0, vy: 0, onGround: false, facing: 1
+};
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// Until the visitor takes control, keep Aarushi pinned to her start pose
+// (bottom-left, on the ground) so the scene always matches the design,
+// regardless of load/resize timing.
+let userControlled = false;
+
+// Physics (scaled to frame height each resize so feel is size-independent)
+let GRAVITY, ACCEL, MAX_SPEED, JUMP_FORCE, MAX_FALL;
+const FRICTION = 0.72, AIR_FRICTION = 0.9;
+
+function resize() {
+  const rect = frame.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  W = rect.width; H = rect.height;
+  canvas.width  = Math.round(W * dpr);
+  canvas.height = Math.round(H * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.imageSmoothingEnabled = false;
+
+  platforms = PLATFORM_LAYOUT.map(p => ({
+    x: p.fx * W, y: p.fy * H, width: p.fw * W, height: p.fh * H
+  }));
+  // solid ground = the bottom edge of the frame
+  platforms.push({ x: -40, y: H, width: W + 80, height: 200, ground: true });
+
+  // physics tuned to frame height
+  GRAVITY   = H * 0.0016;
+  ACCEL     = W * 0.0011;
+  MAX_SPEED = W * 0.006;
+  JUMP_FORCE = -H * 0.033;
+  MAX_FALL  = H * 0.02;
+
+  // character size — preserve the sprite's natural aspect (drawn whole)
+  const aspect = (img.char && img.char.naturalWidth) ? img.char.naturalWidth / img.char.naturalHeight : 0.876;
+  player.height = CHAR_START.fh * H;
+  player.width  = player.height * aspect;
+
+  // mystery boxes: rebuild geometry each resize, preserve collected state
+  if (boxes.length !== BOX_LAYOUT.length) {
+    boxes = BOX_LAYOUT.map(b => ({ item: b.item, collected: false }));
+  }
+  BOX_LAYOUT.forEach((b, i) => {
+    const w = BOX_FW * W, h = BOX_FH * H;
+    Object.assign(boxes[i], { x: b.fx * W, y: b.fy * H, w, h,
+      cx: b.fx * W + w / 2, cy: b.fy * H + h / 2 });
+  });
+
+  if (!userControlled) {
+    // deterministic start pose: feet on the ground, at the left
+    player.x = CHAR_START.fx * W;
+    player.y = H - player.height;
+    player.vx = 0; player.vy = 0; player.onGround = true;
+  } else {
+    // after the visitor has moved, just keep her inside the frame
+    player.y = Math.min(player.y, H - player.height);
+    player.x = Math.max(0, Math.min(player.x, W - player.width));
+  }
+}
+
+/* =====================================================================
+   INPUT
+===================================================================== */
+const keys = { left: false, right: false, jump: false };
+let jumpHeld = false, gameActive = true;
+new IntersectionObserver(
+  e => { gameActive = e[0].isIntersecting; },
+  { threshold: 0.05 }
+).observe(frame);
+
+function handleKey(e, down) {
+  if (!gameActive || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  let hit = true;
+  switch (e.code) {
+    case "ArrowLeft": case "KeyA":  keys.left = down;  break;
+    case "ArrowRight": case "KeyD": keys.right = down; break;
+    case "Space": case "ArrowUp": case "KeyW":
+      keys.jump = down; if (!down) jumpHeld = false; break;
+    default: hit = false;
+  }
+  if (hit) { userControlled = true; e.preventDefault(); }
+}
+window.addEventListener("keydown", e => handleKey(e, true));
+window.addEventListener("keyup",   e => handleKey(e, false));
+
+/* =====================================================================
+   PHYSICS  (X then Y axis AABB resolution)
+===================================================================== */
+function aabb(a, b) {
+  return a.x < b.x + b.width && a.x + a.width > b.x &&
+         a.y < b.y + b.height && a.y + a.height > b.y;
+}
+function update() {
+  if (keys.left)  { player.vx -= ACCEL; player.facing = -1; }
+  if (keys.right) { player.vx += ACCEL; player.facing =  1; }
+  if (!keys.left && !keys.right) {
+    player.vx *= player.onGround ? FRICTION : AIR_FRICTION;
+    if (Math.abs(player.vx) < 0.05) player.vx = 0;
+  }
+  player.vx = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, player.vx));
+
+  if (keys.jump && player.onGround && !jumpHeld) {
+    player.vy = JUMP_FORCE; player.onGround = false; jumpHeld = true;
+  }
+  player.vy = Math.min(player.vy + GRAVITY, MAX_FALL);
+
+  // X axis — treat platforms as side walls, but inset the vertical bounds so
+  // merely resting on top (feet flush with a platform) doesn't count as a
+  // wall hit and shove the character sideways.
+  player.x += player.vx;
+  const inset = player.height * 0.06;
+  const yTop = player.y + inset, yBot = player.y + player.height - inset;
+  for (const p of platforms) {
+    if (player.x < p.x + p.width && player.x + player.width > p.x &&
+        yTop < p.y + p.height && yBot > p.y) {
+      player.x = player.vx > 0 ? p.x - player.width : p.x + p.width;
+      player.vx = 0;
+    }
+  }
+  if (player.x < 0) { player.x = 0; player.vx = 0; }
+  if (player.x + player.width > W) { player.x = W - player.width; player.vx = 0; }
+
+  // Y axis
+  player.y += player.vy;
+  player.onGround = false;
+  for (const p of platforms) {
+    if (aabb(player, p)) {
+      if (player.vy > 0) { player.y = p.y - player.height; player.vy = 0; player.onGround = true; }
+      else if (player.vy < 0) { player.y = p.y + p.height; player.vy = 0; }
+    }
+  }
+
+  // collect any mystery box the character is touching
+  for (const b of boxes) {
+    if (!b.collected && aabb(player, { x: b.x, y: b.y, width: b.w, height: b.h })) collect(b);
+  }
+}
+
+/* =====================================================================
+   COLLECTION — box → rising item + top-right aura card
+===================================================================== */
+function collect(b) {
+  b.collected = true;
+  const it = ITEMS[b.item];
+  if (!REDUCE) risers.push({ asset: it.asset, glow: it.glow, cx: b.cx, cy: b.cy, born: performance.now() });
+  showAura(it);
+}
+
+const auraEl   = document.getElementById("aura");
+const auraImg  = auraEl.querySelector("img");
+const auraName = auraEl.querySelector(".aura-name");
+const auraPts  = auraEl.querySelector(".aura-pts");
+let auraTimer;
+function showAura(it) {
+  auraImg.src = assets[it.asset];
+  auraImg.style.filter = "drop-shadow(0 -2rem 9.3rem " + it.glow + ")";
+  auraName.textContent = it.name;
+  auraPts.textContent  = it.points;
+  auraEl.classList.add("show");
+  clearTimeout(auraTimer);
+  auraTimer = setTimeout(() => auraEl.classList.remove("show"), 1600);  // auto-dismiss
+}
+
+/* =====================================================================
+   DRAW
+===================================================================== */
+function drawBackground() {
+  const im = img.bg;
+  if (!im.naturalWidth) { ctx.fillStyle = "#a56fd0"; ctx.fillRect(0, 0, W, H); return; }
+  // cover-fit, anchored to the bottom (matches Figma's top:-27.31% / h:127.31%)
+  const scale = Math.max(W / im.naturalWidth, H / im.naturalHeight);
+  const dw = im.naturalWidth * scale, dh = im.naturalHeight * scale;
+  ctx.drawImage(im, (W - dw) / 2, H - dh, dw, dh);
+}
+
+function drawPlatforms() {
+  const im = img.plat;
+  ctx.save();
+  ctx.shadowColor = "#93762e";
+  ctx.shadowBlur = 8.4;
+  ctx.shadowOffsetX = 2; ctx.shadowOffsetY = 2;
+  for (const p of platforms) {
+    if (p.ground) continue;
+    if (im.naturalWidth) ctx.drawImage(im, p.x, p.y, p.width, p.height);
+    else { ctx.fillStyle = "#4e9a2e"; ctx.fillRect(p.x, p.y, p.width, p.height); }
+  }
+  ctx.restore();
+}
+
+function drawBoxes(now) {
+  const im = img.box;
+  const bobAmp = REDUCE ? 0 : H * 0.008;
+  boxes.forEach((b, i) => {
+    if (b.collected) return;
+    const bob = Math.sin(now * 0.002 + i * 1.7) * bobAmp;   // gentle float
+    ctx.save();
+    ctx.shadowColor = "rgba(0,0,0,0.35)"; ctx.shadowBlur = 6; ctx.shadowOffsetY = 3;
+    if (im.naturalWidth) {
+      const dh = b.h, dw = dh * (im.naturalWidth / im.naturalHeight);  // keep aspect
+      ctx.drawImage(im, b.cx - dw / 2, b.cy - dh / 2 + bob, dw, dh);
+    } else {
+      ctx.fillStyle = "#7c467f"; ctx.fillRect(b.x, b.y + bob, b.w, b.h);
+    }
+    ctx.restore();
+  });
+}
+
+function drawRisers(now) {
+  const RISE_MS = 2800;   // 0.5x rise speed (same distance over twice the time)
+  for (let i = risers.length - 1; i >= 0; i--) {
+    const r = risers[i];
+    const t = (now - r.born) / RISE_MS;
+    if (t >= 1) { risers.splice(i, 1); continue; }
+    const im = img[r.asset];
+    if (!im || !im.naturalWidth) continue;
+    const h = H * 0.147, w = h * (im.naturalWidth / im.naturalHeight);
+    const y = r.cy - t * (r.cy + h);                       // rise until fully off the top
+    const alpha = t < 0.65 ? 1 : Math.max(0, 1 - (t - 0.65) / 0.35);
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.shadowColor = r.glow || "rgba(213,131,23,0.8)"; ctx.shadowBlur = 9; ctx.shadowOffsetY = -2;
+    ctx.drawImage(im, r.cx - w / 2, y - h / 2, w, h);
+    ctx.restore();
+    // small "+" badge to the left of the item, vertically centred on it
+    // (matches the Figma popped-item composition); rises and fades with it
+    drawPlus(r.cx - w / 2 - H * 0.035, y - h * 0.05, H * 0.02, alpha);
+  }
+}
+
+function drawCharacter() {
+  const im = img.char;
+  ctx.save();
+  ctx.shadowColor = "rgba(0,0,0,0.4)";
+  ctx.shadowBlur = 4; ctx.shadowOffsetX = -1; ctx.shadowOffsetY = -1;
+  if (im.naturalWidth) {
+    if (player.facing === -1) {
+      ctx.translate(player.x + player.width, player.y);
+      ctx.scale(-1, 1);
+      ctx.drawImage(im, 0, 0, player.width, player.height);
+    } else {
+      ctx.drawImage(im, player.x, player.y, player.width, player.height);
+    }
+  } else {
+    ctx.fillStyle = "#5b3a86";
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+  }
+  ctx.restore();
+}
+
+function draw() {
+  const now = performance.now();
+  ctx.clearRect(0, 0, W, H);
+  drawBackground();
+  drawPlatforms();
+  drawBoxes(now);
+  drawCharacter();
+  drawRisers(now);     // collected items float above everything as they rise off-screen
+}
+
+/* =====================================================================
+   BOOT
+===================================================================== */
+function onAssetsReady() {
+  resize();
+}
+
+let rt;
+window.addEventListener("resize", () => {
+  setScale();
+  clearTimeout(rt);
+  rt = setTimeout(resize, 100);
+});
+
+// start the loop immediately; it draws placeholders until art loads
+resize();
+(function loop() { update(); draw(); requestAnimationFrame(loop); })();
+</script>
+
+</body>
+</html>
