@@ -197,7 +197,10 @@ body {
   align-items: center;
   gap: 20rem;
   padding: 20rem 32rem;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.4);
+  border: 1px solid rgba(255,255,255,0.5);   /* glass stroke */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   pointer-events: none;
 }
 .controls .keys { display: flex; align-items: center; gap: 6.69rem; }
@@ -215,11 +218,11 @@ body {
 .controls .key img { width: 35.12rem; height: 35.678rem; display: block; }
 .controls p {
   font-weight: 500;
-  font-size: 24rem;
+  font-size: 22rem;
   line-height: 1.2;
-  letter-spacing: 0.24rem;
+  letter-spacing: 0.22rem;
   text-align: center;
-  color: #fff;
+  color: #894671;
 }
 
 /* Aura card (top-right) — shows the collected item, then auto-dismisses */
@@ -281,45 +284,48 @@ body {
   border-top: 1px solid var(--accent);
 }
 
-.workcards {
-  width: 1182rem;
+/* ---------------------------------------------------------------------
+   PROJECT CARDS — two side by side; video on top, text + CTA below
+--------------------------------------------------------------------- */
+.projrow {
+  width: 1688.383rem;
   margin: 110rem auto 0;
-  border: 1px solid var(--accent);
-  border-radius: 20rem;
-  background: rgba(194, 153, 188, 0.1);   /* #C299BC at 10% */
   display: flex;
-  min-height: 314rem;
-  overflow: hidden;              /* clip the video to the card's rounded corners */
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  transition: border-color .2s ease;
+  gap: 60rem;
+  align-items: stretch;
 }
-.workcards:hover { border-color: #e6b8dd; }
-.workcards:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.workcard {
+.projcard {
   flex: 1 0 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 40rem;
-  padding: 40rem 20rem;
+  border: 1px solid;
+  border-radius: 20rem;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .2s ease;
 }
-.workcard.first { padding-left: 60rem; padding-right: 40rem; }
-.worktext { display: flex; flex-direction: column; gap: 16rem; width: 100%; }
-.workcard h3 { font-weight: 500; font-size: 32rem; letter-spacing: 0.32rem; }
-.workcard p  { font-weight: 400; font-size: 24rem; letter-spacing: 0.24rem; }
-
-/* Glass CTA pill (from Figma: rgba(206,147,197,0.5) fill, pill radius) */
-.workcta {
+.projvideo { width: 100%; height: 453rem; }
+.projvideo video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.projbody {
+  flex: 1 0 0;
+  min-height: 337rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40rem;
+  padding: 40rem 40rem 40rem 60rem;
+}
+.projtext { display: flex; flex-direction: column; gap: 16rem; width: 100%; }
+.projtext h3 { font-weight: 500; font-size: 32rem; letter-spacing: 0.32rem; color: #fff; }
+.projtext p  { font-weight: 400; font-size: 24rem; letter-spacing: 0.24rem; color: #fff; }
+.projcta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 12rem 20rem;
   border-radius: 35rem;
-  background: rgba(206,147,197,0.3);
   border: 1px solid rgba(255,255,255,0.4);   /* glass rim */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -330,11 +336,17 @@ body {
   white-space: nowrap;
   transition: background .2s ease;
 }
-.workcards:hover .workcta { background: rgba(206,147,197,0.45); }
-
-/* Right side of the project card: a looping, muted demo video */
-.workvideo { flex: 1 0 0; min-width: 0; align-self: stretch; }
-.workvideo video { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Medtronic — subtle mauve, clickable */
+.projcard.medtronic { border-color: #d8b7d3; background: rgba(216,183,211,0.1); cursor: pointer; }
+.projcard.medtronic .projvideo { background: #fff; }
+.projcard.medtronic .projcta { background: rgba(216,183,211,0.3); }
+a.projcard.medtronic:hover { border-color: #e6c9e2; }
+a.projcard.medtronic:hover .projcta { background: rgba(216,183,211,0.45); }
+a.projcard:focus-visible { outline: 2px solid #d8b7d3; outline-offset: 4px; }
+/* SAVii — subtle blue border, teal CTA, coming soon */
+.projcard.savii { border-color: #bcdbff; background: rgba(188,219,255,0.1); }
+.projcard.savii .projvideo { background: #a8c2c0; }
+.projcard.savii .projcta { background: rgba(168,194,192,0.2); }
 
 /* Keyboard focus */
 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -397,7 +409,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
           <span class="key key-space"></span>
           <span class="key"><img src="assets/arrow-right.svg" alt=""></span>
         </div>
-        <p>control using the arrow keys and the space bar</p>
+        <p>control me using the arrow keys and the space bar</p>
       </div>
 
       <!-- Aura card: shows the collected item, then auto-dismisses -->
@@ -420,18 +432,33 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     </div>
     <div class="footerline"></div>
 
-    <a class="workcards" id="work" href="https://aarushibhalla.framer.website/medtronic-labs" target="_blank" rel="noopener noreferrer" aria-label="Open the Medtronic Labs X Parallel HQ case study">
-      <article class="workcard first">
-        <div class="worktext">
-          <h3>An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
-          <p>Medtronic Labs X Parallel HQ</p>
+    <div class="projrow" id="work">
+      <a class="projcard medtronic" href="https://aarushibhalla.framer.website/medtronic-labs" target="_blank" rel="noopener noreferrer" aria-label="Open the Medtronic Labs X Parallel HQ case study">
+        <div class="projvideo">
+          <video src="assets/medtronic-demo.mp4" autoplay loop muted playsinline preload="auto" aria-label="Demo of the AI workflow builder"></video>
         </div>
-        <span class="workcta">View Case Study</span>
-      </article>
-      <div class="workvideo">
-        <video src="assets/medtronic-demo.mp4" autoplay loop muted playsinline preload="auto" aria-label="Demo of the AI workflow builder"></video>
+        <div class="projbody">
+          <div class="projtext">
+            <h3>An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
+            <p>Medtronic Labs X Parallel HQ</p>
+          </div>
+          <span class="projcta">View Case Study</span>
+        </div>
+      </a>
+
+      <div class="projcard savii">
+        <div class="projvideo">
+          <video src="assets/savii-demo.mp4" autoplay loop muted playsinline preload="auto" aria-label="Demo of the SAVii debt recovery redesign"></video>
+        </div>
+        <div class="projbody">
+          <div class="projtext">
+            <h3>Redesigning debt recovery for salary backed loans at a Philippines fintech</h3>
+            <p>SAVii X Parallel HQ</p>
+          </div>
+          <span class="projcta">Coming Soon</span>
+        </div>
       </div>
-    </a>
+    </div>
   </div>
 
 </div>

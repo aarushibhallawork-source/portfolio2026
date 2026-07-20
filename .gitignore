@@ -9,6 +9,7 @@
 assets/gsap.min.js
 assets/ScrollTrigger.min.js
 assets/*-raw.png
+assets/*.mov
 assets/hero-bg.png
 assets/character.png
 assets/platform-2.png
