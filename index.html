@@ -286,6 +286,7 @@ body {
   margin: 110rem auto 0;
   border: 1px solid var(--accent);
   border-radius: 20rem;
+  background: rgba(194, 153, 188, 0.1);   /* #C299BC at 10% */
   display: flex;
   min-height: 314rem;
   overflow: hidden;              /* clip the video to the card's rounded corners */
@@ -302,12 +303,34 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 24rem;
-  padding: 20rem;
+  align-items: flex-start;
+  gap: 40rem;
+  padding: 40rem 20rem;
 }
-.workcard.first { padding-left: 60rem; padding-right: 20rem; }
+.workcard.first { padding-left: 60rem; padding-right: 40rem; }
+.worktext { display: flex; flex-direction: column; gap: 16rem; width: 100%; }
 .workcard h3 { font-weight: 500; font-size: 32rem; letter-spacing: 0.32rem; }
 .workcard p  { font-weight: 400; font-size: 24rem; letter-spacing: 0.24rem; }
+
+/* Glass CTA pill (from Figma: rgba(206,147,197,0.5) fill, pill radius) */
+.workcta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12rem 20rem;
+  border-radius: 35rem;
+  background: rgba(206,147,197,0.3);
+  border: 1px solid rgba(255,255,255,0.4);   /* glass rim */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-weight: 500;
+  font-size: 24rem;
+  letter-spacing: 0.24rem;
+  color: #fff;
+  white-space: nowrap;
+  transition: background .2s ease;
+}
+.workcards:hover .workcta { background: rgba(206,147,197,0.45); }
 
 /* Right side of the project card: a looping, muted demo video */
 .workvideo { flex: 1 0 0; min-width: 0; align-self: stretch; }
@@ -399,8 +422,11 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
     <a class="workcards" id="work" href="https://aarushibhalla.framer.website/medtronic-labs" target="_blank" rel="noopener noreferrer" aria-label="Open the Medtronic Labs X Parallel HQ case study">
       <article class="workcard first">
-        <h3>An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
-        <p>Medtronic Labs X Parallel HQ</p>
+        <div class="worktext">
+          <h3>An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
+          <p>Medtronic Labs X Parallel HQ</p>
+        </div>
+        <span class="workcta">View Case Study</span>
       </article>
       <div class="workvideo">
         <video src="assets/medtronic-demo.mp4" autoplay loop muted playsinline preload="auto" aria-label="Demo of the AI workflow builder"></video>
