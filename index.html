@@ -139,7 +139,7 @@ body {
 
 /* Headline */
 .headline {
-  width: 1018.133rem;
+  width: 100%;
   text-align: center;
   font-weight: 600;
   font-size: 72rem;
@@ -160,6 +160,7 @@ body {
   align-items: center;
 }
 .intro p {
+  font-family: var(--font-gs);
   font-weight: 500;
   font-size: 24rem;
   line-height: 1.2;
@@ -399,7 +400,7 @@ body {
 }
 .projtext { display: flex; flex-direction: column; gap: 16rem; width: 100%; }
 .projtext h3 { font-weight: 500; font-size: 32rem; letter-spacing: 0.32rem; color: #fff; }
-.projtext p  { font-weight: 400; font-size: 24rem; letter-spacing: 0.24rem; color: #fff; }
+.projtext p  { font-family: var(--font-gs); font-weight: 400; font-size: 24rem; letter-spacing: 0.24rem; color: #fff; }
 .projcta {
   display: inline-flex;
   align-items: center;
@@ -409,6 +410,7 @@ body {
   border: 1px solid rgba(255,255,255,0.4);   /* glass rim */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  font-family: var(--font-gs);
   font-weight: 500;
   font-size: 24rem;
   letter-spacing: 0.24rem;
@@ -495,6 +497,27 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   * { scroll-behavior: auto; }
   .aura { transition: none; }   /* card toggles without motion; item collected instantly */
 }
+
+/* ---------------------------------------------------------------------
+   SCROLL-REVEAL — elements fade + rise as they enter the viewport.
+   Driven by IntersectionObserver (see the script). Scoped to .js-reveal
+   so content is always visible if JS doesn't run.
+--------------------------------------------------------------------- */
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(24rem);
+  transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
+  will-change: opacity, transform;
+}
+.js-reveal .reveal.in { opacity: 1; transform: none; }
+/* stagger the cards within a row/grid */
+.js-reveal .projcard:nth-child(2)  { transition-delay: .12s; }
+.js-reveal .testicard:nth-child(2) { transition-delay: .08s; }
+.js-reveal .testicard:nth-child(3) { transition-delay: .16s; }
+.js-reveal .testicard:nth-child(4) { transition-delay: .24s; }
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
+}
 </style>
 </head>
 <body>
@@ -529,7 +552,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
           </a>
         </div>
 
-        <h1 class="headline">Hi, I’m Aarushi.<br>I turn AI into real products.</h1>
+        <h1 class="headline">Hi, I’m Aarushi.<br>I don’t just build, I ask if it should exist</h1>
       </div>
     </header>
 
@@ -1090,6 +1113,27 @@ window.addEventListener("resize", () => {
 // start the loop immediately; it draws placeholders until art loads
 resize();
 (function loop() { update(); draw(); requestAnimationFrame(loop); })();
+
+/* =====================================================================
+   SCROLL-REVEAL — fade + rise sections/cards as they scroll into view
+   (IntersectionObserver, one-time per element; reduced-motion aware)
+===================================================================== */
+document.documentElement.classList.add("js-reveal");
+(function setupReveal() {
+  const sels = [".headline", ".worktabrow", ".projcard", ".testitab-row", ".testicard"];
+  const targets = [];
+  sels.forEach(sel => document.querySelectorAll(sel).forEach(el => { el.classList.add("reveal"); targets.push(el); }));
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach(el => el.classList.add("in"));   // fallback: just show them
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }
+  }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+  targets.forEach(el => io.observe(el));
+})();
 </script>
 
 </body>
