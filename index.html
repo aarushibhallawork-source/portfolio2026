@@ -274,7 +274,7 @@ body {
 .lc-popup {
   position: relative;
   box-sizing: border-box;
-  width: 593.985rem;
+  width: 817rem;
   background: rgba(124,70,127,0.4);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -293,45 +293,53 @@ body {
 .lc-stars img { width: 67.6rem; height: 67.6rem; image-rendering: pixelated; }
 .lc-title { font-family: var(--font); font-weight: 500; font-size: 38.95rem; letter-spacing: 0.39rem; color: #fff; text-align: center; }
 .lc-divider { width: 401.818rem; height: 1px; background: rgba(255,255,255,0.3); }
-.lc-sub { font-family: var(--font); font-weight: 400; font-size: 24rem; letter-spacing: 0.24rem; color: rgba(255,255,255,0.85); text-align: center; }
-.lc-items { display: flex; gap: 32.458rem; width: 100%; }
+.lc-sub { font-family: var(--font); font-weight: 400; font-size: 20rem; letter-spacing: 0.2rem; color: rgba(255,255,255,0.85); text-align: center; }
+.lc-items { display: flex; gap: 28rem; width: 100%; }
 .lc-item {
   flex: 1 0 0;
   min-width: 0;
   background: rgba(124,70,127,0.4);
-  padding: 17.593rem 12rem;
+  padding: 16rem 12rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10.556rem;
+  gap: 16rem;
 }
+.lc-item-top { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10.556rem; width: 100%; }
 .lc-item-img { height: 63rem; display: flex; align-items: center; justify-content: center; }
 .lc-item-img img { height: 100%; width: auto; image-rendering: pixelated; }
 .lc-item.matcha    .lc-item-img img { filter: drop-shadow(0 -2rem   9.3rem rgba(213,131,23,0.8)); }
 .lc-item.macbook   .lc-item-img img { filter: drop-shadow(0 -1.8rem 8.2rem rgba(178,136,204,0.9)); }
 .lc-item.badminton .lc-item-img img { filter: drop-shadow(0 1rem    8.2rem rgba(178,136,204,0.9)); }
-.lc-item span { font-family: var(--font); font-weight: 400; font-size: 16rem; letter-spacing: 0.16rem; line-height: 1.2; color: #fff; text-align: center; }
-.lc-replay {
+.lc-item-name { font-family: var(--font); font-weight: 500; font-size: 16rem; letter-spacing: 0.16rem; line-height: 1.2; color: #fff; text-align: center; }
+.lc-item-desc { font-family: var(--font); font-weight: 400; font-size: 16rem; letter-spacing: 0.16rem; line-height: 1.2; color: #fff; text-align: center; width: 100%; }
+.lc-actions { display: flex; gap: 32rem; justify-content: flex-end; width: 100%; }
+.lc-btn {
   box-sizing: border-box;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10rem;
-  background: rgba(216,183,211,0.3);
   border: 1px solid rgba(255,255,255,0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 35rem;
-  padding: 12rem 20rem;
+  padding: 16rem 20rem;
   font-family: var(--font);
   font-weight: 500;
-  font-size: 24rem;
-  letter-spacing: 0.24rem;
+  font-size: 20rem;
+  letter-spacing: 0.2rem;
   color: #fff;
+  white-space: nowrap;
+  text-decoration: none;
   cursor: pointer;
   transition: background .2s ease;
 }
-.lc-replay:hover { background: rgba(216,183,211,0.45); }
-.lc-replay img { width: 24rem; height: 24rem; }
+.lc-btn img { width: 24rem; height: 24rem; }
+.lc-replay { background: rgba(216,183,211,0.1); }
+.lc-replay:hover { background: rgba(216,183,211,0.2); }
+.lc-build { background: rgba(216,183,211,0.3); }
+.lc-build:hover { background: rgba(216,183,211,0.45); }
 
 /* ---------------------------------------------------------------------
    FOOTER  (recent-work tab + divider line + work cards)
@@ -368,7 +376,7 @@ body {
    PROJECT CARDS — two side by side; video on top, text + CTA below
 --------------------------------------------------------------------- */
 .projrow {
-  width: 1688.383rem;
+  width: 1392rem;
   margin: 110rem auto 0;
   display: flex;
   gap: 60rem;
@@ -390,17 +398,16 @@ body {
 .projvideo video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .projbody {
   flex: 1 0 0;
-  min-height: 337rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;      /* CTA hugs its content + left-aligns */
   gap: 40rem;
-  padding: 40rem 40rem 40rem 60rem;
+  padding: 32rem 40rem 20rem 60rem;
 }
 .projtext { display: flex; flex-direction: column; gap: 16rem; width: 100%; }
-.projtext h3 { font-weight: 500; font-size: 32rem; letter-spacing: 0.32rem; color: #fff; }
-.projtext p  { font-family: var(--font-gs); font-weight: 400; font-size: 24rem; letter-spacing: 0.24rem; color: #fff; }
+.projtext h3 { font-family: var(--font); font-weight: 500; font-size: 24rem; line-height: 1.3; letter-spacing: 0.24rem; color: #fff; }
+.projtext p  { font-family: var(--font-gs); font-weight: 400; font-size: 20rem; letter-spacing: 0.2rem; color: #fff; }
 .projcta {
   display: inline-flex;
   align-items: center;
@@ -412,8 +419,8 @@ body {
   -webkit-backdrop-filter: blur(12px);
   font-family: var(--font-gs);
   font-weight: 500;
-  font-size: 24rem;
-  letter-spacing: 0.24rem;
+  font-size: 20rem;
+  letter-spacing: 0.2rem;
   color: #fff;
   white-space: nowrap;
   transition: background .2s ease;
@@ -428,6 +435,7 @@ a.projcard:focus-visible { outline: 2px solid #d8b7d3; outline-offset: 4px; }
 /* SAVii — subtle blue border, teal CTA, coming soon */
 .projcard.savii { border-color: #bcdbff; background: rgba(188,219,255,0.1); }
 .projcard.savii .projvideo { background: #a8c2c0; }
+.projcard.savii .projbody { padding-left: 40rem; }   /* Figma: SAVii body has 40 left, not 60 */
 .projcard.savii .projcta { background: rgba(168,194,192,0.2); }
 
 /* ---------------------------------------------------------------------
@@ -458,14 +466,32 @@ a.projcard:focus-visible { outline: 2px solid #d8b7d3; outline-offset: 4px; }
   top: -19.52%;
   image-rendering: pixelated;
 }
-.testigrid {
-  width: 1098rem;
+/* One-line ticker that scrolls left and pauses on hover. The card set is
+   duplicated in the markup so translateX(-50%) loops seamlessly; the gap is
+   applied as margin-right (not flex gap) so -50% lands exactly on a card. */
+.testiticker {
   margin: 60rem auto 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 49rem 52rem;              /* row-gap column-gap */
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+}
+.testitrack {
+  display: flex;
+  align-items: stretch;
+  width: max-content;
+  padding: 4rem 0;               /* keep the 1px card border off the mask edge */
+  animation: testiscroll 45s linear infinite;
+}
+.testiticker:hover .testitrack { animation-play-state: paused; }
+@keyframes testiscroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 .testicard {
+  width: 523rem;
+  flex-shrink: 0;
+  margin-right: 52rem;           /* gap-as-margin → seamless -50% loop */
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.5);
   border-radius: 20rem;
@@ -496,6 +522,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto; }
   .aura { transition: none; }   /* card toggles without motion; item collected instantly */
+  .testitrack { animation: none; }
+  .testiticker { overflow-x: auto; }   /* fall back to manual horizontal scroll */
 }
 
 /* ---------------------------------------------------------------------
@@ -510,11 +538,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   will-change: opacity, transform;
 }
 .js-reveal .reveal.in { opacity: 1; transform: none; }
-/* stagger the cards within a row/grid */
+/* stagger the cards within a row */
 .js-reveal .projcard:nth-child(2)  { transition-delay: .12s; }
-.js-reveal .testicard:nth-child(2) { transition-delay: .08s; }
-.js-reveal .testicard:nth-child(3) { transition-delay: .16s; }
-.js-reveal .testicard:nth-child(4) { transition-delay: .24s; }
 @media (prefers-reduced-motion: reduce) {
   .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
 }
@@ -552,7 +577,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
           </a>
         </div>
 
-        <h1 class="headline">Hi, I’m Aarushi.<br>I don’t just build, I ask if it should exist</h1>
+        <h1 class="headline">Hi, I’m Aarushi.<br>I don’t just build, I help figure out if it should exist</h1>
       </div>
     </header>
 
@@ -595,14 +620,26 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
             </div>
             <h2 class="lc-title">A Day in my Life</h2>
             <div class="lc-divider"></div>
-            <p class="lc-sub">Level Completed</p>
+            <p class="lc-sub">Fueled up, figured it, stayed sane</p>
           </div>
           <div class="lc-items">
-            <div class="lc-item matcha"><div class="lc-item-img"><img src="assets/matcha.png" alt=""></div><span>Strawberry Matcha</span></div>
-            <div class="lc-item macbook"><div class="lc-item-img"><img src="assets/macbook.png" alt=""></div><span>Macbook Pro</span></div>
-            <div class="lc-item badminton"><div class="lc-item-img"><img src="assets/badminton.png" alt=""></div><span>Badminton Racket</span></div>
+            <div class="lc-item matcha">
+              <div class="lc-item-top"><div class="lc-item-img"><img src="assets/matcha.png" alt=""></div><span class="lc-item-name">Strawberry Matcha</span></div>
+              <p class="lc-item-desc">the fuel that gets me through 4 pm changes</p>
+            </div>
+            <div class="lc-item macbook">
+              <div class="lc-item-top"><div class="lc-item-img"><img src="assets/macbook.png" alt=""></div><span class="lc-item-name">Macbook Pro</span></div>
+              <p class="lc-item-desc">where every idea actually gets built</p>
+            </div>
+            <div class="lc-item badminton">
+              <div class="lc-item-top"><div class="lc-item-img"><img src="assets/badminton.png" alt=""></div><span class="lc-item-name">Badminton Racket</span></div>
+              <p class="lc-item-desc">how I unwind after a long day of work</p>
+            </div>
           </div>
-          <button class="lc-replay" id="lc-replay" type="button"><img src="assets/replay.svg" alt="">Replay</button>
+          <div class="lc-actions">
+            <button class="lc-btn lc-replay" id="lc-replay" type="button"><img src="assets/replay.svg" alt="">Replay</button>
+            <a class="lc-btn lc-build" id="lc-build" href="#work">See what I built<img src="assets/arrow.svg" alt=""></a>
+          </div>
         </div>
       </div>
     </section>
@@ -654,50 +691,99 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     </div>
     <div class="footerline"></div>
 
-    <div class="testigrid">
-      <article class="testicard">
-        <div class="testihead">
-          <img class="testiavatar" src="assets/mallika.png" alt="">
-          <div class="testiwho">
-            <span class="testiname">Mallika Sharma</span>
-            <span class="testirole">Product Designer II @ Parallel</span>
+    <!-- One-line ticker: the 4 cards, then a duplicate set (aria-hidden) so the
+         translateX(-50%) marquee loops seamlessly. Hover pauses the scroll. -->
+    <div class="testiticker">
+      <div class="testitrack">
+        <article class="testicard">
+          <div class="testihead">
+            <img class="testiavatar" src="assets/mallika.png" alt="">
+            <div class="testiwho">
+              <span class="testiname">Mallika Sharma</span>
+              <span class="testirole">Product Designer II @ Parallel</span>
+            </div>
           </div>
-        </div>
-        <p class="testiquote">She thinks beyond execution. Curious enough to master every tool she touches.</p>
-      </article>
+          <p class="testiquote">She thinks beyond execution. Curious enough to master every tool she touches.</p>
+        </article>
 
-      <article class="testicard">
-        <div class="testihead">
-          <img class="testiavatar" src="assets/neeharika.jpeg" alt="">
-          <div class="testiwho">
-            <span class="testiname">Neeharika Kasireddi</span>
-            <span class="testirole">UX Designer @ Techolution</span>
+        <article class="testicard">
+          <div class="testihead">
+            <img class="testiavatar" src="assets/neeharika.jpeg" alt="">
+            <div class="testiwho">
+              <span class="testiname">Neeharika Kasireddi</span>
+              <span class="testirole">UX Designer @ Techolution</span>
+            </div>
           </div>
-        </div>
-        <p class="testiquote">Her energy and creativity became indispensable to the team, really fast.</p>
-      </article>
+          <p class="testiquote">Her energy and creativity became indispensable to the team, really fast.</p>
+        </article>
 
-      <article class="testicard">
-        <div class="testihead">
-          <img class="testiavatar" src="assets/harsh.jpeg" alt="">
-          <div class="testiwho">
-            <span class="testiname">Harsh Vardhan Sikka</span>
-            <span class="testirole">CEO &amp; Founder @ Zariya AI</span>
+        <article class="testicard">
+          <div class="testihead">
+            <img class="testiavatar" src="assets/harsh.jpeg" alt="">
+            <div class="testiwho">
+              <span class="testiname">Harsh Vardhan Sikka</span>
+              <span class="testirole">CEO &amp; Founder @ Zariya AI</span>
+            </div>
           </div>
-        </div>
-        <p class="testiquote">Having her on the team is truly amazing! Her questions and opinions made all the difference.</p>
-      </article>
+          <p class="testiquote">Having her on the team is truly amazing! Her questions and opinions made all the difference.</p>
+        </article>
 
-      <article class="testicard">
-        <div class="testihead">
-          <img class="testiavatar" src="assets/ashley.jpeg" alt="">
-          <div class="testiwho">
-            <span class="testiname">Ashley Alexsius</span>
-            <span class="testirole">UX Designer @ Techolution</span>
+        <article class="testicard">
+          <div class="testihead">
+            <img class="testiavatar" src="assets/ashley.jpeg" alt="">
+            <div class="testiwho">
+              <span class="testiname">Ashley Alexsius</span>
+              <span class="testirole">UX Designer @ Techolution</span>
+            </div>
           </div>
-        </div>
-        <p class="testiquote">Her passion for the next best thing is genuinely infectious.</p>
-      </article>
+          <p class="testiquote">Her passion for the next best thing is genuinely infectious.</p>
+        </article>
+
+        <!-- duplicate set for the seamless loop -->
+        <article class="testicard" aria-hidden="true">
+          <div class="testihead">
+            <img class="testiavatar" src="assets/mallika.png" alt="">
+            <div class="testiwho">
+              <span class="testiname">Mallika Sharma</span>
+              <span class="testirole">Product Designer II @ Parallel</span>
+            </div>
+          </div>
+          <p class="testiquote">She thinks beyond execution. Curious enough to master every tool she touches.</p>
+        </article>
+
+        <article class="testicard" aria-hidden="true">
+          <div class="testihead">
+            <img class="testiavatar" src="assets/neeharika.jpeg" alt="">
+            <div class="testiwho">
+              <span class="testiname">Neeharika Kasireddi</span>
+              <span class="testirole">UX Designer @ Techolution</span>
+            </div>
+          </div>
+          <p class="testiquote">Her energy and creativity became indispensable to the team, really fast.</p>
+        </article>
+
+        <article class="testicard" aria-hidden="true">
+          <div class="testihead">
+            <img class="testiavatar" src="assets/harsh.jpeg" alt="">
+            <div class="testiwho">
+              <span class="testiname">Harsh Vardhan Sikka</span>
+              <span class="testirole">CEO &amp; Founder @ Zariya AI</span>
+            </div>
+          </div>
+          <p class="testiquote">Having her on the team is truly amazing! Her questions and opinions made all the difference.</p>
+        </article>
+
+        <article class="testicard" aria-hidden="true">
+          <div class="testihead">
+            <img class="testiavatar" src="assets/ashley.jpeg" alt="">
+            <div class="testiwho">
+              <span class="testiname">Ashley Alexsius</span>
+              <span class="testirole">UX Designer @ Techolution</span>
+            </div>
+          </div>
+          <p class="testiquote">Her passion for the next best thing is genuinely infectious.</p>
+        </article>
+      </div>
     </div>
   </div>
 
@@ -999,6 +1085,9 @@ document.getElementById("lc-replay").addEventListener("click", () => {
   levelEl.classList.remove("show");
   resize();
 });
+document.getElementById("lc-build").addEventListener("click", () => {
+  levelEl.classList.remove("show");
+});
 
 /* =====================================================================
    DRAW
@@ -1120,7 +1209,7 @@ resize();
 ===================================================================== */
 document.documentElement.classList.add("js-reveal");
 (function setupReveal() {
-  const sels = [".headline", ".worktabrow", ".projcard", ".testitab-row", ".testicard"];
+  const sels = [".headline", ".worktabrow", ".projcard", ".testitab-row"];
   const targets = [];
   sels.forEach(sel => document.querySelectorAll(sel).forEach(el => { el.classList.add("reveal"); targets.push(el); }));
   if (!("IntersectionObserver" in window)) {
