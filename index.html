@@ -7,7 +7,7 @@
 
 <!-- Clash Display (Fontshare) — the display face used across the design -->
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&f[]=general-sans@400,500&display=swap" rel="stylesheet">
 
 <style>
 /* =====================================================================
@@ -19,6 +19,7 @@
   --accent-tint: rgba(206,147,197,0.1);
   --ink: #ffffff;
   --font: "Clash Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-gs: "General Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   /* Scaling: 1rem == (viewport-fit factor) px, set by JS.
      Every dimension below is written in rem using the Figma pixel value,
@@ -254,6 +255,84 @@ body {
 .aura .aura-pts  { font-weight: 400; font-size: 24rem; line-height: 1.2; letter-spacing: 0.24rem; color: #fff; }
 
 /* ---------------------------------------------------------------------
+   LEVEL-COMPLETE POPUP (overlay + "A Day in my Life" card)
+--------------------------------------------------------------------- */
+.levelcomplete {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+.levelcomplete.show { opacity: 1; visibility: visible; }
+.lc-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); }
+.lc-popup {
+  position: relative;
+  box-sizing: border-box;
+  width: 593.985rem;
+  background: rgba(124,70,127,0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20rem;
+  padding: 32.458rem 51.933rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32.458rem;
+  transform: scale(0.92);
+  transition: transform .35s cubic-bezier(0.22,1,0.36,1);
+}
+.levelcomplete.show .lc-popup { transform: scale(1); }
+.lc-head { display: flex; flex-direction: column; align-items: center; gap: 20rem; width: 100%; }
+.lc-stars { display: flex; justify-content: center; }
+.lc-stars img { width: 67.6rem; height: 67.6rem; image-rendering: pixelated; }
+.lc-title { font-family: var(--font); font-weight: 500; font-size: 38.95rem; letter-spacing: 0.39rem; color: #fff; text-align: center; }
+.lc-divider { width: 401.818rem; height: 1px; background: rgba(255,255,255,0.3); }
+.lc-sub { font-family: var(--font); font-weight: 400; font-size: 24rem; letter-spacing: 0.24rem; color: rgba(255,255,255,0.85); text-align: center; }
+.lc-items { display: flex; gap: 32.458rem; width: 100%; }
+.lc-item {
+  flex: 1 0 0;
+  min-width: 0;
+  background: rgba(124,70,127,0.4);
+  padding: 17.593rem 12rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10.556rem;
+}
+.lc-item-img { height: 63rem; display: flex; align-items: center; justify-content: center; }
+.lc-item-img img { height: 100%; width: auto; image-rendering: pixelated; }
+.lc-item.matcha    .lc-item-img img { filter: drop-shadow(0 -2rem   9.3rem rgba(213,131,23,0.8)); }
+.lc-item.macbook   .lc-item-img img { filter: drop-shadow(0 -1.8rem 8.2rem rgba(178,136,204,0.9)); }
+.lc-item.badminton .lc-item-img img { filter: drop-shadow(0 1rem    8.2rem rgba(178,136,204,0.9)); }
+.lc-item span { font-family: var(--font); font-weight: 400; font-size: 16rem; letter-spacing: 0.16rem; line-height: 1.2; color: #fff; text-align: center; }
+.lc-replay {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rem;
+  background: rgba(216,183,211,0.3);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 35rem;
+  padding: 12rem 20rem;
+  font-family: var(--font);
+  font-weight: 500;
+  font-size: 24rem;
+  letter-spacing: 0.24rem;
+  color: #fff;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.lc-replay:hover { background: rgba(216,183,211,0.45); }
+.lc-replay img { width: 24rem; height: 24rem; }
+
+/* ---------------------------------------------------------------------
    FOOTER  (recent-work tab + divider line + work cards)
 --------------------------------------------------------------------- */
 .footer { margin-top: 109rem; }
@@ -349,6 +428,66 @@ a.projcard:focus-visible { outline: 2px solid #d8b7d3; outline-offset: 4px; }
 .projcard.savii .projvideo { background: #a8c2c0; }
 .projcard.savii .projcta { background: rgba(168,194,192,0.2); }
 
+/* ---------------------------------------------------------------------
+   TESTIMONIALS — "Words from the people I've worked with"
+   Section tab + divider (reusing .worktab / .footerline), then a 2×2
+   grid of glass cards (uses General Sans).
+--------------------------------------------------------------------- */
+.testimonials { margin-top: 109rem; }
+.testitab-row {
+  width: 1688.383rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 18rem;
+}
+.testitab-flag {
+  position: relative;
+  width: 60.452rem;
+  height: 58.02rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.testitab-flag img {
+  position: absolute;
+  width: 136.79%;
+  height: 142.52%;
+  left: -20.22%;
+  top: -19.52%;
+  image-rendering: pixelated;
+}
+.testigrid {
+  width: 1098rem;
+  margin: 60rem auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 49rem 52rem;              /* row-gap column-gap */
+}
+.testicard {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 20rem;
+  overflow: hidden;
+  padding: 40rem 40rem 40rem 60rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16rem;
+}
+.testihead { display: flex; align-items: center; gap: 16rem; width: 100%; }
+.testiavatar {
+  width: 56rem;
+  height: 56rem;
+  border-radius: 50%;
+  background: #d9d9d9;           /* placeholder — swap for a real photo */
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.testiwho { display: flex; flex-direction: column; min-width: 0; }
+.testiname { font-family: var(--font-gs); font-weight: 500; font-size: 24rem; letter-spacing: 0.24rem; color: #fff; }
+.testirole { font-family: var(--font-gs); font-weight: 400; font-size: 18rem; letter-spacing: 0.18rem; color: #fff; }
+.testiquote { font-family: var(--font-gs); font-weight: 500; font-style: italic; font-size: 18rem; letter-spacing: 0.18rem; color: #fff; }
+
 /* Keyboard focus */
 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
@@ -421,6 +560,28 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
           <p class="aura-pts">+ 100 aura points</p>
         </div>
       </div>
+
+      <!-- Level-complete popup: shown when all 3 items are collected and the
+           character reaches the bottom-right (tries to exit) -->
+      <div class="levelcomplete" id="levelcomplete" aria-hidden="true">
+        <div class="lc-overlay"></div>
+        <div class="lc-popup" role="dialog" aria-label="Level complete">
+          <div class="lc-head">
+            <div class="lc-stars">
+              <img src="assets/star.png" alt=""><img src="assets/star.png" alt=""><img src="assets/star.png" alt="">
+            </div>
+            <h2 class="lc-title">A Day in my Life</h2>
+            <div class="lc-divider"></div>
+            <p class="lc-sub">Level Completed</p>
+          </div>
+          <div class="lc-items">
+            <div class="lc-item matcha"><div class="lc-item-img"><img src="assets/matcha.png" alt=""></div><span>Strawberry Matcha</span></div>
+            <div class="lc-item macbook"><div class="lc-item-img"><img src="assets/macbook.png" alt=""></div><span>Macbook Pro</span></div>
+            <div class="lc-item badminton"><div class="lc-item-img"><img src="assets/badminton.png" alt=""></div><span>Badminton Racket</span></div>
+          </div>
+          <button class="lc-replay" id="lc-replay" type="button"><img src="assets/replay.svg" alt="">Replay</button>
+        </div>
+      </div>
     </section>
 
   </div>
@@ -459,6 +620,61 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
           <span class="projcta">Coming Soon</span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ================= TESTIMONIALS ================= -->
+  <div class="testimonials">
+    <div class="testitab-row">
+      <div class="worktab">Words from the people I’ve worked with</div>
+      <div class="testitab-flag"><img src="assets/tab-flag-2.png" alt=""></div>
+    </div>
+    <div class="footerline"></div>
+
+    <div class="testigrid">
+      <article class="testicard">
+        <div class="testihead">
+          <img class="testiavatar" src="assets/mallika.png" alt="">
+          <div class="testiwho">
+            <span class="testiname">Mallika Sharma</span>
+            <span class="testirole">Product Designer II @ Parallel</span>
+          </div>
+        </div>
+        <p class="testiquote">She thinks beyond execution. Curious enough to master every tool she touches.</p>
+      </article>
+
+      <article class="testicard">
+        <div class="testihead">
+          <img class="testiavatar" src="assets/neeharika.jpeg" alt="">
+          <div class="testiwho">
+            <span class="testiname">Neeharika Kasireddi</span>
+            <span class="testirole">UX Designer @ Techolution</span>
+          </div>
+        </div>
+        <p class="testiquote">Her energy and creativity became indispensable to the team, really fast.</p>
+      </article>
+
+      <article class="testicard">
+        <div class="testihead">
+          <img class="testiavatar" src="assets/harsh.jpeg" alt="">
+          <div class="testiwho">
+            <span class="testiname">Harsh Vardhan Sikka</span>
+            <span class="testirole">CEO &amp; Founder @ Zariya AI</span>
+          </div>
+        </div>
+        <p class="testiquote">Having her on the team is truly amazing! Her questions and opinions made all the difference.</p>
+      </article>
+
+      <article class="testicard">
+        <div class="testihead">
+          <img class="testiavatar" src="assets/ashley.jpeg" alt="">
+          <div class="testiwho">
+            <span class="testiname">Ashley Alexsius</span>
+            <span class="testirole">UX Designer @ Techolution</span>
+          </div>
+        </div>
+        <p class="testiquote">Her passion for the next best thing is genuinely infectious.</p>
+      </article>
     </div>
   </div>
 
@@ -576,6 +792,7 @@ const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
 // (bottom-left, on the ground) so the scene always matches the design,
 // regardless of load/resize timing.
 let userControlled = false;
+let levelComplete = false;    // true once the completion popup is shown
 
 // Physics (scaled to frame height each resize so feel is size-independent)
 let GRAVITY, ACCEL, MAX_SPEED, JUMP_FORCE, MAX_FALL;
@@ -641,7 +858,7 @@ new IntersectionObserver(
 ).observe(frame);
 
 function handleKey(e, down) {
-  if (!gameActive || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  if (!gameActive || levelComplete || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
   let hit = true;
   switch (e.code) {
     case "ArrowLeft": case "KeyA":  keys.left = down;  break;
@@ -706,6 +923,13 @@ function update() {
   for (const b of boxes) {
     if (!b.collected && aabb(player, { x: b.x, y: b.y, width: b.w, height: b.h })) collect(b);
   }
+
+  // level complete: all collected + character reaches the bottom-right (exits)
+  if (!levelComplete && boxes.length === 3 && boxes.every(b => b.collected) &&
+      player.x + player.width >= W - 4 && player.y + player.height >= H - 4) {
+    levelComplete = true;
+    showLevelComplete();
+  }
 }
 
 /* =====================================================================
@@ -732,6 +956,26 @@ function showAura(it) {
   clearTimeout(auraTimer);
   auraTimer = setTimeout(() => auraEl.classList.remove("show"), 1600);  // auto-dismiss
 }
+
+/* =====================================================================
+   LEVEL COMPLETE — overlay + popup, and the Replay button that resets it
+===================================================================== */
+const levelEl = document.getElementById("levelcomplete");
+function clearKeys() { keys.left = keys.right = keys.jump = false; jumpHeld = false; }
+function showLevelComplete() {
+  clearKeys();                // stop residual movement behind the overlay
+  levelEl.classList.add("show");
+}
+document.getElementById("lc-replay").addEventListener("click", () => {
+  boxes.forEach(b => b.collected = false);
+  risers.length = 0;
+  auraEl.classList.remove("show");
+  clearKeys();                // clear any key still held when the popup opened
+  levelComplete = false;
+  userControlled = false;     // respawn at the start pose
+  levelEl.classList.remove("show");
+  resize();
+});
 
 /* =====================================================================
    DRAW
