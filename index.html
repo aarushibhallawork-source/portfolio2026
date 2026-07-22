@@ -947,7 +947,9 @@ const ctx    = canvas.getContext("2d");
 const assets = {
   bg:        "assets/bg-valley.png",
   plat:      "assets/platform-1.png",   // all three platforms share the sprite
-  char:      "assets/character-new.png",
+  char:      "assets/character-new.png",   // standing / running
+  jumpUp:    "assets/jump-ascend.png",     // ascending (arm up)
+  jumpDown:  "assets/jump-descend.png",    // falling / about to land
   box:       "assets/box.png",          // the "?" mystery box
   matcha:    "assets/matcha.png",
   macbook:   "assets/macbook.png",
@@ -1290,17 +1292,27 @@ function drawRisers(now) {
 }
 
 function drawCharacter() {
-  const im = img.char;
+  // pick the pose: ascending (arm up), descending/landing, or grounded
+  let im = img.char;
+  if (!player.onGround) im = (player.vy < 0) ? img.jumpUp : img.jumpDown;
+  if (!im || !im.naturalWidth) im = img.char;   // fall back if a jump sprite is still loading
+
   ctx.save();
   ctx.shadowColor = "rgba(0,0,0,0.4)";
   ctx.shadowBlur = 4; ctx.shadowOffsetX = -1; ctx.shadowOffsetY = -1;
-  if (im.naturalWidth) {
+  if (im && im.naturalWidth) {
+    // each pose keeps its own aspect, scaled to the character height and
+    // centered on the (unchanged) physics box so nothing stretches or jumps
+    const dh = player.height;
+    const dw = dh * (im.naturalWidth / im.naturalHeight);
+    const dx = player.x + (player.width - dw) / 2;
+    const dy = player.y;
     if (player.facing === -1) {
-      ctx.translate(player.x + player.width, player.y);
+      ctx.translate(dx + dw, dy);
       ctx.scale(-1, 1);
-      ctx.drawImage(im, 0, 0, player.width, player.height);
+      ctx.drawImage(im, 0, 0, dw, dh);
     } else {
-      ctx.drawImage(im, player.x, player.y, player.width, player.height);
+      ctx.drawImage(im, dx, dy, dw, dh);
     }
   } else {
     ctx.fillStyle = "#5b3a86";
