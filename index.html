@@ -14,7 +14,7 @@
    TOKENS  (values taken directly from the Figma file)
 ===================================================================== */
 :root {
-  --bg: #1E1E1E;
+  --bg: #160F17;
   --accent: #ce93c5;             /* mauve borders / lines */
   --accent-tint: rgba(206,147,197,0.1);
   --ink: #ffffff;
@@ -374,20 +374,19 @@ body {
 }
 
 /* ---------------------------------------------------------------------
-   PROJECT CARDS — two side by side; video on top, text + CTA below
+   PROJECT CARDS — full-width horizontal cards, stacked (Figma 104:721):
+   content on the left (tag pills, title, stat row), media on the right.
 --------------------------------------------------------------------- */
 .projrow {
-  width: 1392rem;
+  width: 1688.383rem;
   margin: 110rem auto 0;
   display: flex;
+  flex-direction: column;
   gap: 60rem;
-  align-items: stretch;
 }
 .projcard {
-  flex: 1 0 0;
-  min-width: 0;
   display: flex;
-  flex-direction: column;
+  align-items: stretch;          /* media panel matches content height */
   border: 1px solid;
   border-radius: 20rem;
   overflow: hidden;
@@ -395,48 +394,75 @@ body {
   color: inherit;
   transition: border-color .2s ease;
 }
-.projvideo { width: 100%; height: 453rem; }
-.projvideo video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.projbody {
+.projcontent {
   flex: 1 0 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;      /* CTA hugs its content + left-aligns */
-  gap: 40rem;
-  padding: 32rem 40rem 20rem 60rem;
+  align-items: flex-start;
+  gap: 32rem;
+  padding: 32rem 48rem;
 }
-.projtext { display: flex; flex-direction: column; gap: 16rem; width: 100%; }
-.projtext h3 { font-family: var(--font); font-weight: 500; font-size: 24rem; line-height: 1.3; letter-spacing: 0.24rem; color: #fff; }
-.projtext p  { font-family: var(--font-gs); font-weight: 400; font-size: 20rem; letter-spacing: 0.2rem; color: #fff; }
-.projcta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12rem 20rem;
+.projtags { display: flex; flex-wrap: wrap; gap: 24rem; }
+.projtag {
+  padding: 8rem 20rem;
   border-radius: 35rem;
-  border: 1px solid rgba(255,255,255,0.4);   /* glass rim */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   font-family: var(--font-gs);
   font-weight: 500;
-  font-size: 20rem;
-  letter-spacing: 0.2rem;
+  font-size: 16rem;
+  letter-spacing: 0.16rem;
   color: #fff;
   white-space: nowrap;
-  transition: background .2s ease;
 }
-/* Medtronic — subtle mauve, clickable */
-.projcard.medtronic { border-color: #d8b7d3; background: rgba(216,183,211,0.1); cursor: pointer; }
-.projcard.medtronic .projvideo { background: #fff; }
-.projcard.medtronic .projcta { background: rgba(216,183,211,0.3); }
-a.projcard.medtronic:hover { border-color: #e6c9e2; }
-a.projcard.medtronic:hover .projcta { background: rgba(216,183,211,0.45); }
+.projtitle {
+  font-family: var(--font);
+  font-weight: 600;              /* Clash Display Semibold */
+  font-size: 36rem;
+  line-height: 1.3;
+  letter-spacing: 0.36rem;
+  color: #fff;
+  width: 100%;
+}
+.projstats { display: flex; align-items: center; gap: 45rem; width: 100%; }
+.projstat { display: flex; flex-direction: column; align-items: flex-start; }
+.projstat-num {
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 32rem;
+  line-height: 1.3;
+  letter-spacing: 0.32rem;
+  color: #fff;
+  white-space: nowrap;
+}
+.projstat-label {
+  font-family: var(--font-gs);
+  font-weight: 400;
+  font-size: 17rem;
+  letter-spacing: 0.17rem;
+  color: #fff;
+  white-space: nowrap;
+}
+.projstat-div {
+  flex-shrink: 0;
+  width: 1px;
+  height: 99.51rem;
+  background: rgba(255,255,255,0.25);
+}
+/* media follows the content-driven card height; the video crops to fill.
+   position:absolute keeps the video's intrinsic size from inflating the card. */
+.projmedia { flex-shrink: 0; width: 661rem; align-self: stretch; position: relative; overflow: hidden; }
+.projmedia video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Medtronic — lilac theme, clickable */
+.projcard.medtronic { border-color: #c4a7e7; background: rgba(196,167,231,0.1); cursor: pointer; }
+.projcard.medtronic .projtag  { background: rgba(196,167,231,0.3); }
+.projcard.medtronic .projmedia { background: #fff; }
+a.projcard.medtronic:hover { border-color: #d4bff0; }
 a.projcard:focus-visible { outline: 2px solid #d8b7d3; outline-offset: 4px; }
-/* SAVii — subtle blue border, teal CTA, coming soon */
+/* SAVii — subtle blue border, teal media */
 .projcard.savii { border-color: #bcdbff; background: rgba(188,219,255,0.1); }
-.projcard.savii .projvideo { background: #a8c2c0; }
-.projcard.savii .projbody { padding-left: 40rem; }   /* Figma: SAVii body has 40 left, not 60 */
+.projcard.savii .projtag  { background: rgba(188,219,255,0.3); }
+.projcard.savii .projmedia { background: #a8c2c0; }
 .projcard.savii .projcta { background: rgba(168,194,192,0.2); }
 
 /* ---------------------------------------------------------------------
@@ -657,28 +683,45 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
     <div class="projrow" id="work">
       <a class="projcard medtronic" href="https://aarushibhalla.framer.website/medtronic-labs" target="_blank" rel="noopener noreferrer" aria-label="Open the Medtronic Labs X Parallel HQ case study">
-        <div class="projvideo">
-          <video src="assets/medtronic-demo.mp4" autoplay loop muted playsinline preload="auto" aria-label="Demo of the AI workflow builder"></video>
-        </div>
-        <div class="projbody">
-          <div class="projtext">
-            <h3>An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
-            <p>Medtronic Labs X Parallel HQ</p>
+        <div class="projcontent">
+          <!-- TODO: confirm Medtronic tags (placeholders) -->
+          <div class="projtags">
+            <span class="projtag">Medtronic Labs</span>
+            <span class="projtag">HealthTech</span>
+            <span class="projtag">AI Workflow</span>
           </div>
-          <span class="projcta">View Case Study</span>
+          <h3 class="projtitle">An AI workflow builder for National Healthcare policy makers in 2 weeks</h3>
+          <div class="projstats">
+            <div class="projstat"><span class="projstat-num">2 weeks</span><span class="projstat-label">from brief to build</span></div>
+            <div class="projstat-div"></div>
+            <div class="projstat"><span class="projstat-num">National rollout</span><span class="projstat-label">moving the conversation forward</span></div>
+            <div class="projstat-div"></div>
+            <div class="projstat"><span class="projstat-num">AI-first</span><span class="projstat-label">workflow builder</span></div>
+          </div>
+        </div>
+        <div class="projmedia">
+          <video src="assets/medtronic-demo.mp4" autoplay loop muted playsinline preload="auto" aria-label="Demo of the AI workflow builder"></video>
         </div>
       </a>
 
       <div class="projcard savii">
-        <div class="projvideo">
-          <video src="assets/savii-demo.mp4" autoplay loop muted playsinline preload="auto" aria-label="Demo of the SAVii debt recovery redesign"></video>
-        </div>
-        <div class="projbody">
-          <div class="projtext">
-            <h3>Redesigning debt recovery for salary backed loans at a Philippines fintech</h3>
-            <p>SAVii X Parallel HQ</p>
+        <div class="projcontent">
+          <div class="projtags">
+            <span class="projtag">SAVii Phillipines</span>
+            <span class="projtag">FinTech</span>
+            <span class="projtag">Journey Audit</span>
           </div>
-          <span class="projcta">Coming Soon</span>
+          <h3 class="projtitle">Auditing a fragmented app-to-offline Loan Recovery flow for lower dropoffs</h3>
+          <div class="projstats">
+            <div class="projstat"><span class="projstat-num">10+</span><span class="projstat-label">pain points identified</span></div>
+            <div class="projstat-div"></div>
+            <div class="projstat"><span class="projstat-num">15% ↓</span><span class="projstat-label">projected in drop-offs</span></div>
+            <div class="projstat-div"></div>
+            <div class="projstat"><span class="projstat-num">Prioritized</span><span class="projstat-label">roadmap for next steps</span></div>
+          </div>
+        </div>
+        <div class="projmedia">
+          <video src="assets/savii-demo.mp4" autoplay loop muted playsinline preload="auto" aria-label="Demo of the SAVii debt recovery redesign"></video>
         </div>
       </div>
     </div>
