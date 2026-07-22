@@ -1,0 +1,3 @@
+Most portfolios you scroll. Mine you play. 🎮
+
+I built my design portfolio as a pixel platformer — run around as me, punch open some matcha, and see what I actually shipped. Made with Claude Code, designed in Figma. No templates were harmed.
