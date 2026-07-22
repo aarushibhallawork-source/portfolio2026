@@ -1087,13 +1087,13 @@ function resize() {
   // solid ground = the bottom edge of the frame
   platforms.push({ x: -40, y: H, width: W + 80, height: 200, ground: true });
 
-  // physics tuned to frame height: +50% run speed, ~+50% jump HEIGHT
-  // (height scales with force^2, so jump force is x sqrt(1.5) ~ 1.225, not 1.5)
+  // physics tuned to frame height: +50% run speed; jump height dialed back
+  // so the character stays on screen (height scales with force^2).
   GRAVITY   = H * 0.0016;
-  ACCEL     = W * 0.00165;   // was 0.0011  (+50%)
-  MAX_SPEED = W * 0.009;     // was 0.006   (+50% top speed)
-  JUMP_FORCE = -H * 0.0404;  // was -0.033  (~+50% peak height)
-  MAX_FALL  = H * 0.025;     // was 0.02    (keep descent from lagging the taller jump)
+  ACCEL     = W * 0.00165;   // +50% run
+  MAX_SPEED = W * 0.009;     // +50% top speed
+  JUMP_FORCE = -H * 0.037;   // jump HEIGHT: +20% over 0.0338 (force x sqrt(1.2))
+  MAX_FALL  = H * 0.025;
 
   // character size — preserve the sprite's natural aspect (drawn whole)
   const aspect = (img.char && img.char.naturalWidth) ? img.char.naturalWidth / img.char.naturalHeight : 0.876;
