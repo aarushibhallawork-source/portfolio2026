@@ -1099,24 +1099,27 @@ function aabb(a, b) {
   return a.x < b.x + b.width && a.x + a.width > b.x &&
          a.y < b.y + b.height && a.y + a.height > b.y;
 }
-function update() {
-  if (keys.left)  { player.vx -= ACCEL; player.facing = -1; }
-  if (keys.right) { player.vx += ACCEL; player.facing =  1; }
+// dt is measured in 60fps-frame units (1.0 == one 16.67ms frame) so the
+// character moves at the same real-world speed regardless of the display's
+// refresh rate or the page's current frame rate.
+function update(dt = 1) {
+  if (keys.left)  { player.vx -= ACCEL * dt; player.facing = -1; }
+  if (keys.right) { player.vx += ACCEL * dt; player.facing =  1; }
   if (!keys.left && !keys.right) {
-    player.vx *= player.onGround ? FRICTION : AIR_FRICTION;
+    player.vx *= Math.pow(player.onGround ? FRICTION : AIR_FRICTION, dt);
     if (Math.abs(player.vx) < 0.05) player.vx = 0;
   }
   player.vx = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, player.vx));
 
   if (keys.jump && player.onGround && !jumpHeld) {
-    player.vy = JUMP_FORCE; player.onGround = false; jumpHeld = true;
+    player.vy = JUMP_FORCE; player.onGround = false; jumpHeld = true;  // impulse: not dt-scaled
   }
-  player.vy = Math.min(player.vy + GRAVITY, MAX_FALL);
+  player.vy = Math.min(player.vy + GRAVITY * dt, MAX_FALL);
 
   // X axis — treat platforms as side walls, but inset the vertical bounds so
   // merely resting on top (feet flush with a platform) doesn't count as a
   // wall hit and shove the character sideways.
-  player.x += player.vx;
+  player.x += player.vx * dt;
   const inset = player.height * 0.06;
   const yTop = player.y + inset, yBot = player.y + player.height - inset;
   for (const p of platforms) {
@@ -1130,7 +1133,7 @@ function update() {
   if (player.x + player.width > W) { player.x = W - player.width; player.vx = 0; }
 
   // Y axis
-  player.y += player.vy;
+  player.y += player.vy * dt;
   player.onGround = false;
   for (const p of platforms) {
     if (aabb(player, p)) {
@@ -1312,7 +1315,18 @@ window.addEventListener("resize", () => {
 
 // start the loop immediately; it draws placeholders until art loads
 resize();
-(function loop() { update(); draw(); requestAnimationFrame(loop); })();
+let lastFrameT = 0;
+const FRAME_MS = 1000 / 60;
+function loop(now) {
+  let dt = lastFrameT ? (now - lastFrameT) / FRAME_MS : 1;
+  lastFrameT = now;
+  if (!isFinite(dt) || dt <= 0) dt = 1;
+  dt = Math.min(dt, 3);            // cap so a backgrounded tab can't tunnel the player
+  update(dt);
+  draw();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
 
 /* =====================================================================
    SCROLL-REVEAL — fade + rise sections/cards as they scroll into view
