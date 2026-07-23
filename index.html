@@ -13,6 +13,15 @@
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
 
+<!-- Gate the entrance animations on JS + a visible tab. Added before first
+     paint so hero elements start hidden (no flash); without JS the class is
+     never added and everything renders normally. -->
+<script>
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.documentElement.classList.add("anim");
+  }
+</script>
+
 <style>
 /* =====================================================================
    TOKENS  (values taken directly from the Figma file)
@@ -29,6 +38,12 @@
      Every dimension below is written in rem using the Figma pixel value,
      so the whole page scales proportionally while borders stay crisp. */
   --k: 1;
+
+  /* Motion — ease-out-expo site-wide; a smoother curve for the headline. */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-line: cubic-bezier(0.22, 1, 0.36, 1);
+  --hl-start: 0.1s;    /* when the headline word cascade begins */
+  --hl-step: 0.036s;   /* per-word stagger */
 }
 :root { font-size: calc(var(--k) * 1px); }
 
@@ -670,22 +685,114 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .testiticker { overflow-x: auto; }   /* fall back to manual horizontal scroll */
 }
 
-/* ---------------------------------------------------------------------
-   SCROLL-REVEAL — elements fade + rise as they enter the viewport.
-   Driven by IntersectionObserver (see the script). Scoped to .js-reveal
-   so content is always visible if JS doesn't run.
---------------------------------------------------------------------- */
-.js-reveal .reveal {
+/* =====================================================================
+   MOTION SYSTEM  (transform + opacity only; ease-out-expo; play-once)
+   All states are gated behind html.anim, which is added before first
+   paint only when JS runs and reduced-motion is OFF. So: no-JS or
+   reduced-motion → everything renders in its final state, no motion.
+===================================================================== */
+
+/* ---- HERO (animates on load: html.anim.loaded) ---------------------- */
+/* 1. Nav + name badge: subtle + fast, "already there". */
+.anim .profile,
+.anim .nav a {
+  opacity: 0;
+  transform: translateY(6rem);
+  transition: opacity .32s var(--ease-expo), transform .32s var(--ease-expo);
+}
+.anim .nav a:nth-child(2) { transition-delay: .04s; }
+.anim .nav a:nth-child(3) { transition-delay: .08s; }
+.anim.loaded .profile,
+.anim.loaded .nav a { opacity: 1; transform: none; }
+
+/* 2. Headline: per-word mask reveal (slide up from a hard edge) + blur settle.
+      Words are wrapped by JS: <span class="w"><span class="wi">word</span></span> */
+.anim .headline .w { display: inline-block; overflow: hidden; vertical-align: top; }
+.anim .headline .wi {
+  display: inline-block;
+  transform: translateY(112%);
+  filter: blur(6rem);
+  opacity: 0;
+  transition: transform .56s var(--ease-line), filter .56s var(--ease-line), opacity .4s linear;
+  transition-delay: calc(var(--hl-start) + var(--wi, 0) * var(--hl-step));
+}
+.anim.loaded .headline .wi { transform: none; filter: blur(0); opacity: 1; }
+
+/* 3. Subtext: plain fade-up, right after the headline. */
+.anim .intro {
+  opacity: 0;
+  transform: translateY(16rem);
+  transition: opacity .52s var(--ease-expo) .42s, transform .52s var(--ease-expo) .42s;
+}
+.anim.loaded .intro { opacity: 1; transform: none; }
+
+/* 4. "Let's chat" CTA: quiet, last, minimal scale. */
+.anim .chat {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity .4s var(--ease-expo) .52s, transform .4s var(--ease-expo) .52s;
+}
+.anim.loaded .chat { opacity: 1; transform: none; }
+
+/* 5. The "A Day in my Life" frame: deliberate, delayed, scales up from 0.95. */
+.anim .gamesection {
+  opacity: 0;
+  transform: scale(0.95);
+  transform-origin: 50% 42%;
+  transition: opacity .6s var(--ease-expo) .44s, transform .6s var(--ease-expo) .44s;
+}
+.anim.loaded .gamesection { opacity: 1; transform: none; }
+
+/* ---- SCROLL REVEALS (IntersectionObserver adds .in once) ------------ */
+/* Project cards: fade up + scale 0.96 -> 1; stat chips populate in after. */
+.anim .projcard {
+  opacity: 0;
+  transform: translateY(30rem) scale(0.96);
+  transition: opacity .6s var(--ease-expo), transform .6s var(--ease-expo);
+}
+.anim .projcard.in { opacity: 1; transform: none; }
+.anim .projcard .projstats > * {
+  opacity: 0;
+  transform: translateY(10rem);
+  transition: opacity .5s var(--ease-expo), transform .5s var(--ease-expo);
+}
+.anim .projcard.in .projstats > * { opacity: 1; transform: none; }
+.anim .projcard.in .projstats > *:nth-child(1) { transition-delay: .16s; }
+.anim .projcard.in .projstats > *:nth-child(2) { transition-delay: .22s; }
+.anim .projcard.in .projstats > *:nth-child(3) { transition-delay: .28s; }
+.anim .projcard.in .projstats > *:nth-child(4) { transition-delay: .34s; }
+.anim .projcard.in .projstats > *:nth-child(5) { transition-delay: .40s; }
+/* Demo video: subtle scale-in on hover (interaction, not scroll). */
+.projmedia video { transition: transform .3s var(--ease-expo); }
+.projcard:hover .projmedia video { transform: scale(1.02); }
+
+/* Section-level reveals: recent-work tab, testimonials, footer. */
+.anim .worktabrow,
+.anim .testimonials,
+.anim .sitefooter {
   opacity: 0;
   transform: translateY(24rem);
-  transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
-  will-change: opacity, transform;
+  transition: opacity .6s var(--ease-expo), transform .6s var(--ease-expo);
 }
-.js-reveal .reveal.in { opacity: 1; transform: none; }
-/* stagger the cards within a row */
-.js-reveal .projcard:nth-child(2)  { transition-delay: .12s; }
+.anim .worktabrow.in,
+.anim .testimonials.in,
+.anim .sitefooter.in { opacity: 1; transform: none; }
+
+/* Footer buttons stagger in just after the heading. */
+.anim .sf-btn {
+  opacity: 0;
+  transform: translateY(10rem);
+  transition: opacity .45s var(--ease-expo), transform .45s var(--ease-expo);
+}
+.anim .sitefooter.in .sf-btn { opacity: 1; transform: none; }
+.anim .sitefooter.in .sf-btn.email    { transition-delay: .22s; }
+.anim .sitefooter.in .sf-btn.linkedin { transition-delay: .32s; }
+
+/* Reduced-motion: html.anim is never added, so hero/scroll reveals are
+   inert. Belt-and-suspenders: also disable the decorative loops. */
 @media (prefers-reduced-motion: reduce) {
-  .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
+  .projmedia video { transition: none; }
+  .projcard:hover .projmedia video { transform: none; }
 }
 </style>
 </head>
@@ -1112,9 +1219,11 @@ let GRAVITY, ACCEL, MAX_SPEED, JUMP_FORCE, MAX_FALL;
 const FRICTION = 0.72, AIR_FRICTION = 0.9;
 
 function resize() {
-  const rect = frame.getBoundingClientRect();
+  // offsetWidth/Height are the LAYOUT size — they ignore the entrance
+  // scale transform, so the canvas buffer stays full-res while the frame
+  // visually scales up on load.
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  W = rect.width; H = rect.height;
+  W = frame.offsetWidth; H = frame.offsetHeight;
   canvas.width  = Math.round(W * dpr);
   canvas.height = Math.round(H * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1441,24 +1550,73 @@ function loop(now) {
 requestAnimationFrame(loop);
 
 /* =====================================================================
-   SCROLL-REVEAL — fade + rise sections/cards as they scroll into view
-   (IntersectionObserver, one-time per element; reduced-motion aware)
+   MOTION — hero load sequence + play-once scroll reveals.
+   Gated on html.anim (set pre-paint only when JS runs and reduced-motion
+   is off). If .anim is absent, everything is already in its final state.
 ===================================================================== */
-document.documentElement.classList.add("js-reveal");
-(function setupReveal() {
-  const sels = [".headline", ".worktabrow", ".projcard", ".testitab-row"];
-  const targets = [];
-  sels.forEach(sel => document.querySelectorAll(sel).forEach(el => { el.classList.add("reveal"); targets.push(el); }));
-  if (!("IntersectionObserver" in window)) {
-    targets.forEach(el => el.classList.add("in"));   // fallback: just show them
+(function motion() {
+  const root = document.documentElement;
+  const on = root.classList.contains("anim");
+
+  // Split the headline into per-word masks: <span class="w"><span class="wi">word</span></span>
+  // Each word carries its stagger index in --wi. Whitespace and <br> are kept.
+  function splitHeadline(h) {
+    if (!h) return;
+    const out = document.createDocumentFragment();
+    let i = 0;
+    h.childNodes.forEach((node) => {
+      if (node.nodeType === 3) {
+        node.textContent.split(/(\s+)/).forEach((tok) => {
+          if (tok === "") return;
+          if (/^\s+$/.test(tok)) { out.appendChild(document.createTextNode(" ")); return; }
+          const w = document.createElement("span"); w.className = "w";
+          const wi = document.createElement("span"); wi.className = "wi";
+          wi.textContent = tok;
+          wi.style.setProperty("--wi", i++);
+          w.appendChild(wi); out.appendChild(w);
+        });
+      } else if (node.nodeName === "BR") {
+        out.appendChild(document.createElement("br"));
+      } else {
+        out.appendChild(node.cloneNode(true));
+      }
+    });
+    h.textContent = "";
+    h.appendChild(out);
+  }
+
+  if (on) {
+    try { splitHeadline(document.querySelector(".headline")); } catch (e) {}
+    // Commit the initial hidden state (forced reflow) then flip to .loaded so
+    // the transitions actually run — including for the just-created word masks.
+    // A forced reflow works even where rAF is paused (a backgrounded tab);
+    // it's also robust if the split threw, so content can't get stuck hidden.
+    const go = () => { void root.offsetWidth; root.classList.add("loaded"); };
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", go, { once: true });
+    else go();
+
+    // The game frame scales up on entrance; re-measure the canvas at full
+    // size once that transform settles so it renders crisp.
+    const gs = document.querySelector(".gamesection");
+    if (gs && typeof resize === "function") {
+      gs.addEventListener("transitionend", (e) => {
+        if (e.target === gs && e.propertyName === "transform") resize();
+      });
+    }
+  }
+
+  // Play-once scroll reveals. Card entrances trigger at ~15% visibility.
+  const targets = document.querySelectorAll(".worktabrow, .projcard, .testimonials, .sitefooter");
+  if (!on || !("IntersectionObserver" in window)) {
+    targets.forEach((el) => el.classList.add("in"));   // no-JS/reduced-motion safe: just show
     return;
   }
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) {
       if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
     }
-  }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
-  targets.forEach(el => io.observe(el));
+  }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
+  targets.forEach((el) => io.observe(el));
 })();
 </script>
 
