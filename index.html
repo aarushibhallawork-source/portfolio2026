@@ -479,6 +479,9 @@ body {
 }
 .projtags { display: flex; flex-wrap: wrap; gap: 24rem; }
 .projtag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rem;
   padding: 8rem 20rem;
   border-radius: 35rem;
   font-family: var(--font-gs);
@@ -488,6 +491,7 @@ body {
   color: #fff;
   white-space: nowrap;
 }
+.projtag-icon { width: 16rem; height: 16rem; fill: currentColor; flex-shrink: 0; }
 .projtitle {
   font-family: var(--font);
   font-weight: 600;              /* Clash Display Semibold */
@@ -856,6 +860,19 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .ps-linkedin:active { background: rgba(216,183,211,0.2); }
   .ps-arrow { width: 18px; height: 18px; flex-shrink: 0; color: #fff; }
 }
+
+/* =====================================================================
+   CUSTOM CURSOR — mauve arrow (Figma 135:935). Only on real pointer
+   devices (not touch); SVG for crisp rendering, PNG fallback for Safari
+   (which doesn't support SVG cursors). Hotspot = the arrow tip.
+===================================================================== */
+@media (hover: hover) and (pointer: fine) {
+  html, body,
+  a, button, canvas, label, summary,
+  [href], [role="button"], input, select, textarea, [tabindex] {
+    cursor: url('assets/cursor.svg') 3 2, url('assets/cursor.png') 3 2, auto;
+  }
+}
 </style>
 </head>
 <body>
@@ -1024,6 +1041,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
       <div class="projcard savii">
         <div class="projcontent">
           <div class="projtags">
+            <span class="projtag"><svg class="projtag-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><path d="M200,75.64V40a16,16,0,0,0-16-16H72A16,16,0,0,0,56,40V76a16.07,16.07,0,0,0,6.4,12.8L114.67,128,62.4,167.2A16.07,16.07,0,0,0,56,180v36a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V180.36a16.09,16.09,0,0,0-6.35-12.77L141.27,128l52.38-39.59A16.09,16.09,0,0,0,200,75.64ZM184,180.36V216H72V180l48-36v24a8,8,0,0,0,16,0V144.08Zm0-104.72L178.23,80H77.33L72,76V40H184Z"/></svg>Coming Soon</span>
             <span class="projtag">SAVii Phillipines</span>
             <span class="projtag">FinTech</span>
             <span class="projtag">Journey Audit</span>
