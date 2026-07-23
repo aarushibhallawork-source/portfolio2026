@@ -330,6 +330,23 @@ body {
   transition: transform .35s cubic-bezier(0.22,1,0.36,1);
 }
 .levelcomplete.show .lc-popup { transform: scale(1); }
+
+/* Win reveal — the popup contents rise in one at a time:
+   stars → "A Day in my Life" → matcha → macbook → badminton → CTAs. */
+.lc-stars, .lc-title, .lc-divider, .lc-sub, .lc-item, .lc-actions {
+  opacity: 0;
+  transform: translateY(14rem);
+  transition: opacity .45s ease, transform .45s cubic-bezier(.22,1,.36,1);
+}
+.levelcomplete.show .lc-stars          { opacity: 1; transform: none; transition-delay: .15s; }
+.levelcomplete.show .lc-title,
+.levelcomplete.show .lc-divider,
+.levelcomplete.show .lc-sub            { opacity: 1; transform: none; transition-delay: .45s; }
+.levelcomplete.show .lc-item.matcha    { opacity: 1; transform: none; transition-delay: .75s; }
+.levelcomplete.show .lc-item.macbook   { opacity: 1; transform: none; transition-delay: 1.0s; }
+.levelcomplete.show .lc-item.badminton { opacity: 1; transform: none; transition-delay: 1.25s; }
+.levelcomplete.show .lc-actions        { opacity: 1; transform: none; transition-delay: 1.5s; }
+
 .lc-head { display: flex; flex-direction: column; align-items: center; gap: 20rem; width: 100%; }
 .lc-stars { display: flex; justify-content: center; }
 .lc-stars img { width: 67.6rem; height: 67.6rem; image-rendering: pixelated; }
@@ -377,7 +394,8 @@ body {
   cursor: pointer;
   transition: background .2s ease;
 }
-.lc-btn img { width: 24rem; height: 24rem; }
+.lc-btn img { width: 19.5rem; height: 18rem; }        /* Figma: replay glyph inset in a 24 frame */
+.lc-btn .lc-arrow { width: 24rem; height: 24rem; flex-shrink: 0; color: #fff; }
 .lc-replay { background: rgba(216,183,211,0.1); }
 .lc-replay:hover { background: rgba(216,183,211,0.2); }
 .lc-build { background: rgba(216,183,211,0.3); }
@@ -644,6 +662,10 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   * { scroll-behavior: auto; }
   .aura { transition: none; }   /* card toggles without motion; item collected instantly */
   .exitarrow.show { animation: none; }   /* show the exit arrow, but don't bob it */
+  /* win popup: show everything at once, no staggered rise */
+  .lc-stars, .lc-title, .lc-divider, .lc-sub, .lc-item, .lc-actions {
+    opacity: 1; transform: none; transition: none;
+  }
   .testitrack { animation: none; }
   .testiticker { overflow-x: auto; }   /* fall back to manual horizontal scroll */
 }
@@ -768,7 +790,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
           </div>
           <div class="lc-actions">
             <button class="lc-btn lc-replay" id="lc-replay" type="button"><img src="assets/replay.svg" alt="">Replay</button>
-            <a class="lc-btn lc-build" id="lc-build" href="#work">See what I built<img src="assets/arrow.svg" alt=""></a>
+            <a class="lc-btn lc-build" id="lc-build" href="#work">See what I built<svg class="lc-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="20 20 216 216" aria-hidden="true"><line x1="64" y1="192" x2="192" y2="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="88 64 192 64 192 168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg></a>
           </div>
         </div>
       </div>
@@ -1071,6 +1093,14 @@ jumpSfx.volume = 0.5;
 function playJump() {
   try { jumpSfx.currentTime = 0; jumpSfx.play().catch(() => {}); } catch (e) {}
 }
+
+// Success fanfare — plays once when the win popup appears (just after the stars).
+const successSfx = new Audio("assets/celebration.mp3");
+successSfx.preload = "auto";
+successSfx.volume = 0.6;
+function playSuccess() {
+  try { successSfx.currentTime = 0; successSfx.play().catch(() => {}); } catch (e) {}
+}
 // Until the visitor takes control, keep Aarushi pinned to her start pose
 // (bottom-left, on the ground) so the scene always matches the design,
 // regardless of load/resize timing.
@@ -1259,6 +1289,7 @@ function clearKeys() { keys.left = keys.right = keys.jump = false; jumpHeld = fa
 function showLevelComplete() {
   clearKeys();                // stop residual movement behind the overlay
   levelEl.classList.add("show");
+  setTimeout(playSuccess, 400);   // fanfare right after the three stars land
 }
 document.getElementById("lc-replay").addEventListener("click", () => {
   boxes.forEach(b => b.collected = false);
