@@ -466,7 +466,7 @@ body {
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  transition: border-color .2s ease;
+  transition: border-color .2s ease, box-shadow .3s ease;
 }
 .projcontent {
   flex: 1 0 0;
@@ -535,7 +535,11 @@ body {
 .projcard.medtronic { border-color: #c4a7e7; background: rgba(196,167,231,0.1); cursor: pointer; }
 .projcard.medtronic .projtag  { background: rgba(196,167,231,0.3); }
 .projcard.medtronic .projmedia { background: #fff; }
-a.projcard.medtronic:hover { border-color: #d4bff0; }
+@keyframes medtronic-glow {
+  0%, 100% { box-shadow: 0 0 14rem rgba(196,167,231,0.13); }
+  50%      { box-shadow: 0 0 22rem rgba(196,167,231,0.22); }
+}
+a.projcard.medtronic:hover { border-color: #d4bff0; animation: medtronic-glow 3.4s ease-in-out infinite; }
 a.projcard:focus-visible { outline: 2px solid #d8b7d3; outline-offset: 4px; }
 /* SAVii — subtle blue border, teal media */
 .projcard.savii { border-color: #bcdbff; background: rgba(188,219,255,0.1); }
@@ -785,6 +789,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   .projmedia video { transition: none; }
   .projcard:hover .projmedia video { transform: none; }
+  a.projcard.medtronic:hover { animation: none; box-shadow: 0 0 16rem rgba(196,167,231,0.15); }
 }
 
 /* =====================================================================
@@ -873,6 +878,31 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     cursor: url('assets/cursor.svg') 3 2, url('assets/cursor.png') 3 2, auto;
   }
 }
+
+/* "still wip" pill that follows the cursor while hovering the SAVii card.
+   Sized in px so it stays a readable, consistent tooltip at any scale. */
+.wip-pill {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9999;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(188,219,255,0.16);
+  border: 1px solid rgba(188,219,255,0.5);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-family: var(--font-gs);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.13px;
+  color: #fff;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease;
+  will-change: transform;
+}
+.wip-pill.show { opacity: 1; }
 </style>
 </head>
 <body>
@@ -1044,7 +1074,6 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
             <span class="projtag"><svg class="projtag-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" fill="none"/><path d="M200,75.64V40a16,16,0,0,0-16-16H72A16,16,0,0,0,56,40V76a16.07,16.07,0,0,0,6.4,12.8L114.67,128,62.4,167.2A16.07,16.07,0,0,0,56,180v36a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V180.36a16.09,16.09,0,0,0-6.35-12.77L141.27,128l52.38-39.59A16.09,16.09,0,0,0,200,75.64ZM184,180.36V216H72V180l48-36v24a8,8,0,0,0,16,0V144.08Zm0-104.72L178.23,80H77.33L72,76V40H184Z"/></svg>Coming Soon</span>
             <span class="projtag">SAVii Phillipines</span>
             <span class="projtag">FinTech</span>
-            <span class="projtag">Journey Audit</span>
           </div>
           <h3 class="projtitle">Auditing a fragmented app-to-offline Loan Recovery flow for lower dropoffs</h3>
           <div class="projstats">
@@ -1171,7 +1200,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     <div class="sf-top">
       <div class="sf-textgroup">
         <p class="sf-note">This footer is a work in progress.</p>
-        <h2 class="sf-headline">That was the work.<br>Now’s the reaching out part.</h2>
+        <h2 class="sf-headline">I could write something clever here.<br>Or you could just drop me a text.</h2>
       </div>
       <div class="sf-actions">
         <a class="sf-btn email" href="mailto:aarushibhalla.work@gmail.com">Drop an Email</a>
@@ -1183,6 +1212,9 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   </footer>
 
 </div>
+
+<!-- Cursor-following pill shown while hovering the SAVii (WIP) card -->
+<div class="wip-pill" id="wip-pill" aria-hidden="true">still wip</div>
 
 <script>
 "use strict";
@@ -1720,6 +1752,21 @@ requestAnimationFrame(loop);
     }
   }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
   targets.forEach((el) => io.observe(el));
+})();
+
+/* =====================================================================
+   SAVii card hover — a "still wip" pill that trails the cursor.
+===================================================================== */
+(function wipPill() {
+  const card = document.querySelector(".projcard.savii");
+  const pill = document.getElementById("wip-pill");
+  if (!card || !pill) return;
+  const move = (e) => {
+    pill.style.transform = "translate(" + (e.clientX + 16) + "px, " + (e.clientY + 18) + "px)";
+  };
+  card.addEventListener("mouseenter", (e) => { move(e); pill.classList.add("show"); });
+  card.addEventListener("mousemove", move);
+  card.addEventListener("mouseleave", () => pill.classList.remove("show"));
 })();
 </script>
 
