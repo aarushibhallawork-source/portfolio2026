@@ -782,9 +782,106 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .projmedia video { transition: none; }
   .projcard:hover .projmedia video { transform: none; }
 }
+
+/* =====================================================================
+   PHONE SCREEN — shown only below ~600px (phones). Tablets (600px+) and
+   desktop keep the full layout untouched. Uses px, not the --k-scaled
+   rem, so it's independent of the desktop scaling system.
+===================================================================== */
+.phonescreen { display: none; }
+
+@media (max-width: 599px) {
+  .stage { display: none !important; }         /* hide the desktop/tablet layout */
+  .phonescreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    box-sizing: border-box;
+    padding: 72px 24px 92px;
+  }
+  /* Top: character-in-a-circle + name · role (Figma 138:966). */
+  .ps-top { display: flex; flex-direction: column; align-items: center; gap: 19px; }
+  .ps-avatar {
+    width: 130px; height: 130px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    overflow: hidden; position: relative; flex-shrink: 0;
+  }
+  .ps-avatar img {
+    position: absolute; top: 2px; left: -75px;
+    width: 250px; height: auto; image-rendering: pixelated;   /* zoom into the head */
+  }
+  .ps-who {
+    display: flex; align-items: center; gap: 6px;
+    font-family: var(--font); font-weight: 500; font-size: 18px; letter-spacing: 0.18px;
+    color: #fff; white-space: nowrap;
+  }
+  .ps-dot { width: 3.8px; height: 3.8px; }
+  /* Middle: headline + supporting line, vertically centered. */
+  .ps-mid {
+    margin: auto 0;
+    display: flex; flex-direction: column; align-items: center; gap: 24px;
+    width: min(313px, 100%);
+  }
+  .ps-headline {
+    font-family: var(--font); font-weight: 600; font-size: 28px; line-height: 1.1;
+    letter-spacing: 0.28px; color: #fff; margin: 0; width: 100%;
+  }
+  .ps-sub {
+    font-family: var(--font-gs); font-weight: 400; font-size: 16px; line-height: 1.5;
+    letter-spacing: 0.16px; color: #fff; margin: 0; width: 100%;
+  }
+  /* Bottom: reach line + the two footer-style buttons. */
+  .ps-bottom {
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+    width: min(295px, 100%);
+  }
+  .ps-reach-label {
+    font-family: var(--font-gs); font-weight: 500; font-style: italic; font-size: 16px;
+    letter-spacing: 0.16px; color: rgba(255,255,255,0.8); margin: 0;
+  }
+  .ps-actions { display: flex; gap: 20px; justify-content: center; }
+  .ps-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 12px 20px; border-radius: 35px;
+    font-family: var(--font-gs); font-weight: 500; font-size: 16px; letter-spacing: 0.16px;
+    color: #fff; text-decoration: none; white-space: nowrap;
+    transition: background .2s ease;
+  }
+  .ps-email    { background: rgba(216,183,211,0.3); }
+  .ps-email:active { background: rgba(216,183,211,0.45); }
+  .ps-linkedin { background: rgba(216,183,211,0.1); }
+  .ps-linkedin:active { background: rgba(216,183,211,0.2); }
+  .ps-arrow { width: 18px; height: 18px; flex-shrink: 0; color: #fff; }
+}
 </style>
 </head>
 <body>
+
+<!-- ================= PHONE SCREEN (below ~600px only) ================= -->
+<main class="phonescreen">
+  <div class="ps-top">
+    <div class="ps-avatar"><img src="assets/jump-ascend.png" alt="Aarushi Bhalla"></div>
+    <div class="ps-who">
+      <span>Aarushi Bhalla</span>
+      <img class="ps-dot" src="assets/dot.svg" alt="">
+      <span>Product Designer</span>
+    </div>
+  </div>
+  <div class="ps-mid">
+    <h1 class="ps-headline">Desktop only, for now.</h1>
+    <p class="ps-sub">Everything here- the experience, the interactions, is built for a laptop. Working on bringing it to phone. Till then, please view it there.</p>
+  </div>
+  <div class="ps-bottom">
+    <p class="ps-reach-label">Phone’s great for saying hi, though —</p>
+    <div class="ps-actions">
+      <a class="ps-btn ps-email" href="mailto:aarushibhalla.work@gmail.com">Drop an Email</a>
+      <a class="ps-btn ps-linkedin" href="https://www.linkedin.com/in/aarushi-bhalla-/" target="_blank" rel="noopener noreferrer">Linkedin<svg class="ps-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" aria-hidden="true"><line x1="64" y1="192" x2="192" y2="64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="88 64 192 64 192 168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg></a>
+    </div>
+  </div>
+</main>
 
 <div class="stage">
 
