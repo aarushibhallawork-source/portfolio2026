@@ -1062,6 +1062,15 @@ const player = {
   vx: 0, vy: 0, onGround: false, facing: 1
 };
 const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Jump sound — replayed from the start on every jump. The jump is triggered by
+// a key press (a user gesture), so browser autoplay policies allow play().
+const jumpSfx = new Audio("assets/jump.mp3");
+jumpSfx.preload = "auto";
+jumpSfx.volume = 0.5;
+function playJump() {
+  try { jumpSfx.currentTime = 0; jumpSfx.play().catch(() => {}); } catch (e) {}
+}
 // Until the visitor takes control, keep Aarushi pinned to her start pose
 // (bottom-left, on the ground) so the scene always matches the design,
 // regardless of load/resize timing.
@@ -1168,6 +1177,7 @@ function update(dt = 1) {
 
   if (keys.jump && player.onGround && !jumpHeld) {
     player.vy = JUMP_FORCE; player.onGround = false; jumpHeld = true;  // impulse: not dt-scaled
+    playJump();
   }
   player.vy = Math.min(player.vy + GRAVITY * dt, MAX_FALL);
 
